@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package Modelos;
+import BaseDeDatos.*;
+import java.sql.*;
 
 /**
  *
@@ -147,6 +149,11 @@ public class Usuarios extends javax.swing.JFrame {
         });
 
         btnCrearUsuario.setText("Crear Usuario");
+        btnCrearUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearUsuarioActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -304,6 +311,29 @@ public class Usuarios extends javax.swing.JFrame {
     private void txtContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContraseñaActionPerformed
         txtContraseña.transferFocus();
     }//GEN-LAST:event_txtContraseñaActionPerformed
+    String accion="Insertar";
+    private void btnCrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearUsuarioActionPerformed
+        //CONEXION A LA BDD
+        ConexionMySQL mysql= new ConexionMySQL();
+        Connection cn= mysql.Conectar();
+        ///STRING A UTILIZAR
+        String nom,ape,us,cla,carg,perm;
+        String sSQL="";
+        String mensaje;
+        nom=txtNombre.getText();
+        ape=txtApellido.getText();
+        us=txtUsers.getText();
+        cla=txtContraseña.getText();
+        carg=txtCargo.getText();
+        perm= cboPermisos.getSelectedItem().toString();
+                
+        sSQL="INSERT INTO Usuario()"
+                
+        
+        
+        
+        
+    }//GEN-LAST:event_btnCrearUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
