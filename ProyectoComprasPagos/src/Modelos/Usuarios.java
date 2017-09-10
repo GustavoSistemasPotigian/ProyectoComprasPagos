@@ -6,6 +6,9 @@
 package Modelos;
 import BaseDeDatos.*;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -326,8 +329,44 @@ public class Usuarios extends javax.swing.JFrame {
         cla=txtContraseña.getText();
         carg=txtCargo.getText();
         perm= cboPermisos.getSelectedItem().toString();
-                
-        sSQL="INSERT INTO Usuario()"
+        int idPermiso=0;
+        if ( perm=="Admin"){
+            idPermiso=1;
+                    }
+        if (perm=="Users"){
+            idPermiso=2;
+        }
+        
+        
+        ///creamos la consulta sql
+        sSQL="INSERT INTO usuario(nombre, apellido, clave, cargo,Permiso_idPermiso,users) "+
+                "VALUES (?,?,?,?,?,?)";
+        mensaje="El usuario ha sido creado correctamente";
+        
+        
+        try 
+        {
+            PreparedStatement pst= cn.prepareStatement(sSQL);
+            pst.setString(1, nom);
+            pst.setString(2, nom);
+            pst.setString(3, cla);
+            pst.setString(4, carg);
+            pst.setInt(5, idPermiso);
+            pst.setString(6,us);
+            int n = pst.executeUpdate();
+            
+            if (n>0)
+            {
+                JOptionPane.showMessageDialog(null, mensaje);
+            }
+            
+            
+            
+        } 
+        
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
                 
         
         
