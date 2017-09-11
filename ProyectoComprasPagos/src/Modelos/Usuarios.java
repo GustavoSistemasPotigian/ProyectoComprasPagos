@@ -31,6 +31,7 @@ public class Usuarios extends javax.swing.JFrame {
     //carga tabla usuarios
     void CargarTablaUsuarios(String valor){
         String sSQL="";
+       
         ///configuramos la tabla.
         String [] titulos= {"idUsuario","nombre","apellido","users","clave","cargo","Permiso_IdPermiso"};
         String [] registro= new String[7];
@@ -38,7 +39,8 @@ public class Usuarios extends javax.swing.JFrame {
         ///realizamos la conexion con la bdd.
         ConexionMySQL mysql= new ConexionMySQL();
         Connection cn= mysql.Conectar();
-        ///ingresamos la consulta
+        
+       ///ingresamos la consulta
         sSQL="SELECT idUsuario, nombre, apellido,users, clave, cargo, Permiso_IdPermiso FROM usuario " +
                 "WHERE CONCAT (nombre,' ',apellido,' ', users) LIKE '%"+valor+"%'";
         
@@ -66,14 +68,56 @@ public class Usuarios extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex);
         }
         
-                
+  }
+    ///variable para buscar variable a editar
+    String id_actualizar="";
+    
+   void BuscarUsuarioEditar(String idUser){
+        String sSQL="";
+        String nom="",apell="",users="",clave="",cargo="",idPermiso="";
+       
+        ///realizamos la conexion con la bdd.
         
+        ConexionMySQL mysql= new ConexionMySQL();
+        Connection cn= mysql.Conectar();
+        
+       ///ingresamos la consulta
+        
+        sSQL="SELECT idUsuario, nombre, apellido,users, clave, cargo, Permiso_IdPermiso FROM usuario " +
+             "WHERE idUsuario= " + idUser;
+        
+        try 
+        {
+            Statement st= cn.createStatement();
+            ResultSet rs= st.executeQuery(sSQL);
+            
+            while (rs.next())///recorre cada valor de la consulta y la guarda en las variables.
+            {                
+                nom=rs.getString("nombre");
+                apell=rs.getString("apellido");
+                users=rs.getString("users");
+                clave=rs.getString("clave");
+                cargo=rs.getString("cargo");
+                idPermiso=rs.getString("Permiso_IdPermiso");
+                             
+              }
+            txtNombre.setText(nom);
+            txtApellido.setText(apell);
+            txtUsers.setText(users);
+            txtContraseña.setText(clave);
+            txtCargo.setText(cargo);
+            
+            id_actualizar = idUser;
+           
+            
+                        
+        }
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
         
     
-    
-    }
-    
-    
+    } 
     
     void habilitar()
     {
@@ -128,6 +172,8 @@ public class Usuarios extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        mnEditar = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         txtNombre = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -151,6 +197,14 @@ public class Usuarios extends javax.swing.JFrame {
         btnBuscarUsuario = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblConsultaUsuario = new javax.swing.JTable();
+
+        mnEditar.setText("Modificar");
+        mnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnEditarActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(mnEditar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -204,7 +258,7 @@ public class Usuarios extends javax.swing.JFrame {
             }
         });
 
-        btnCrearUsuario.setText("Crear Usuario");
+        btnCrearUsuario.setText("Guardar");
         btnCrearUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearUsuarioActionPerformed(evt);
@@ -359,6 +413,7 @@ public class Usuarios extends javax.swing.JFrame {
 
             }
         ));
+        tblConsultaUsuario.setComponentPopupMenu(jPopupMenu1);
         jScrollPane1.setViewportView(tblConsultaUsuario);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -382,7 +437,7 @@ public class Usuarios extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(325, 325, 325))
+                .addContainerGap())
         );
 
         pack();
@@ -423,7 +478,9 @@ public class Usuarios extends javax.swing.JFrame {
     private void txtContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContraseñaActionPerformed
         txtContraseña.transferFocus();
     }//GEN-LAST:event_txtContraseñaActionPerformed
+    
     String accion="Insertar";
+    
     private void btnCrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearUsuarioActionPerformed
         //CONEXION A LA BDD
         ConexionMySQL mysql= new ConexionMySQL();
@@ -438,6 +495,7 @@ public class Usuarios extends javax.swing.JFrame {
         cla=txtContraseña.getText();
         carg=txtCargo.getText();
         perm= cboPermisos.getSelectedItem().toString();
+        ///buscamos el tipo de permiso
         int idPermiso=0;
         if ( perm=="Admin"){
             idPermiso=1;
@@ -448,9 +506,24 @@ public class Usuarios extends javax.swing.JFrame {
         
         
         ///creamos la consulta sql
-        sSQL="INSERT INTO usuario(nombre, apellido, users, clave, cargo,Permiso_idPermiso) "+
+        if (accion.equals("Insertar"))
+        {
+            sSQL="INSERT INTO usuario(nombre, apellido, users, clave, cargo,Permiso_idPermiso) "+
                 "VALUES (?,?,?,?,?,?)";
-        mensaje="El usuario ha sido creado correctamente";
+           mensaje="El usuario ha sido creado correctamente";
+        }
+        else if (accion.equals("Modificar"))
+        {
+            sSQL="UPDATE usuario " +
+                 "SET nombre = ?, " +
+                 "apellido= ?, "+
+                 "users= ?, " +
+                 "clave= ?, " +
+                 "cargo= ? ," +
+                 "Permiso_idpermiso= ? "+   
+                 "WHERE idUsuario= " + id_actualizar;
+            mensaje="El usuario ha sido modificado correctamente";
+        }
         
         
         try 
@@ -466,7 +539,8 @@ public class Usuarios extends javax.swing.JFrame {
             int n = pst.executeUpdate();
             
             if (n>0)
-            {
+            {    
+                mensaje="El usuario ha sido modificado correctamente";
                 JOptionPane.showMessageDialog(null, mensaje);
                 CargarTablaUsuarios("");
             }
@@ -490,6 +564,37 @@ public class Usuarios extends javax.swing.JFrame {
         
         CargarTablaUsuarios(valor);
     }//GEN-LAST:event_btnBuscarUsuarioActionPerformed
+
+    private void mnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnEditarActionPerformed
+        int filasel;
+        String idUser;
+        
+        try
+           {
+               filasel=tblConsultaUsuario.getSelectedRow();
+               
+               if (filasel==-1)
+               {
+                   JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna fila");
+               }
+               else
+               {
+                   accion="Modificar";
+                   modelo= (DefaultTableModel) tblConsultaUsuario.getModel();
+                   idUser= (String) modelo.getValueAt(filasel, 0);
+                   habilitar();
+                   BuscarUsuarioEditar(idUser);
+                   
+               
+               }
+            
+        
+           }
+        catch (Exception e)
+                {
+                    
+                }
+    }//GEN-LAST:event_mnEditarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -542,7 +647,9 @@ public class Usuarios extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenuItem mnEditar;
     private javax.swing.JTable tblConsultaUsuario;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtBuscar;
