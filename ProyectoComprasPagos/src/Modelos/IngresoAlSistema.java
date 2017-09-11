@@ -148,12 +148,14 @@ public class IngresoAlSistema extends javax.swing.JFrame {
         user= txtUsuario.getText();
         pass= txtClave.getText();
         
-        sSQL="SELECT clave FROM USUARIO WHERE USER LIKE nickname";
+        sSQL="SELECT u.clave from usuario as u where u.users=@user";
+        
+        System.out.println(sSQL);
         
         try {
             Statement st= cn.createStatement();
             ResultSet rs= st.executeQuery(sSQL);
-            
+            System.out.println(rs);
             while(rs.next())
             {
                 registro= rs.getString("clave");
