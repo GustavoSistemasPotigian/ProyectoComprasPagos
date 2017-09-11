@@ -69,10 +69,44 @@ public class Usuarios extends javax.swing.JFrame {
         }
         
   }
-    ///variable para buscar variable a editar
-    String id_actualizar="";
     
-   void BuscarUsuarioEditar(String idUser){
+   void BuscarUsuarioEliminar(String idUser)
+   {
+       String sSQL="";
+       
+        ConexionMySQL mysql= new ConexionMySQL();
+        Connection cn= mysql.Conectar();
+        
+       ///ingresamos la consulta
+        
+        sSQL="DELETE FROM usuario " +
+             "WHERE idUsuario= " + idUser;
+        String mensaje="";
+       
+        try 
+        {
+            PreparedStatement pps= cn.prepareStatement(sSQL);
+            int  n= pps.executeUpdate();
+            
+            if (n>0)
+            {    
+                mensaje="El usuario ha sido eliminado correctamente";
+                JOptionPane.showMessageDialog(null, mensaje);
+                CargarTablaUsuarios("");
+            }
+                       
+        }
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+        
+    
+    }
+   
+   ///variable para buscar variable a editar
+    String id_actualizar="";
+   
+    void BuscarUsuarioEditar(String idUser){
         String sSQL="";
         String nom="",apell="",users="",clave="",cargo="",idPermiso="";
        
@@ -174,6 +208,7 @@ public class Usuarios extends javax.swing.JFrame {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
         mnEditar = new javax.swing.JMenuItem();
+        mnEliminar = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         txtNombre = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -205,6 +240,14 @@ public class Usuarios extends javax.swing.JFrame {
             }
         });
         jPopupMenu1.add(mnEditar);
+
+        mnEliminar.setText("Eliminar");
+        mnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnEliminarActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(mnEliminar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -583,18 +626,41 @@ public class Usuarios extends javax.swing.JFrame {
                    modelo= (DefaultTableModel) tblConsultaUsuario.getModel();
                    idUser= (String) modelo.getValueAt(filasel, 0);
                    habilitar();
-                   BuscarUsuarioEditar(idUser);
-                   
-               
-               }
-            
-        
+                   BuscarUsuarioEditar(idUser);          
+               }     
            }
         catch (Exception e)
                 {
                     
                 }
     }//GEN-LAST:event_mnEditarActionPerformed
+
+    private void mnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnEliminarActionPerformed
+        int filasel;
+        String idUser;
+        
+        try
+           {
+               filasel=tblConsultaUsuario.getSelectedRow();
+               
+               if (filasel==-1)
+               {
+                   JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna fila");
+               }
+               else
+               {
+                   //accion="Modificar";
+                   modelo= (DefaultTableModel) tblConsultaUsuario.getModel();
+                   idUser= (String) modelo.getValueAt(filasel, 0);
+                   habilitar();
+                   BuscarUsuarioEliminar(idUser);          
+               }     
+           }
+        catch (Exception e)
+                {
+                    
+                }
+    }//GEN-LAST:event_mnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -650,6 +716,7 @@ public class Usuarios extends javax.swing.JFrame {
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem mnEditar;
+    private javax.swing.JMenuItem mnEliminar;
     private javax.swing.JTable tblConsultaUsuario;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtBuscar;
