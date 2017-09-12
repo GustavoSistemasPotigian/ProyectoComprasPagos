@@ -588,9 +588,11 @@ public class Usuarios extends javax.swing.JFrame {
             
             if (n>0)
             {    
-                mensaje="El usuario ha sido modificado correctamente";
+                mensaje="Operación Satisfactoria";
                 JOptionPane.showMessageDialog(null, mensaje);
                 CargarTablaUsuarios("");
+                inhabilitar();
+                
             }
             
             
@@ -600,11 +602,7 @@ public class Usuarios extends javax.swing.JFrame {
         catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
-                
-        
-        
-        
-        
+             
     }//GEN-LAST:event_btnCrearUsuarioActionPerformed
 
     private void btnBuscarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarUsuarioActionPerformed
