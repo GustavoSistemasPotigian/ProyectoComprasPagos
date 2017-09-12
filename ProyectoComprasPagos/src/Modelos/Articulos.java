@@ -8,8 +8,11 @@ package Modelos;
 import BaseDeDatos.ConexionMySQL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,8 +23,12 @@ public class Articulos extends javax.swing.JFrame {
     /**
      * Creates new form Articulos
      */
+    DefaultTableModel modelo;
     public Articulos() {
         initComponents();
+        CargarTablaArticulos("");
+        //al iniciar la ventana queda inhabilitado hasta darle click en nuevo.
+        inhabilitar();
     }
     
     void habilitar()
@@ -64,6 +71,8 @@ public class Articulos extends javax.swing.JFrame {
     txtMargen.setEnabled(false);
     txtIdProveedor.setEnabled(false);
     txtCantidadTotal.setEnabled(false);
+    btnGuardarArticulo.setEnabled(false);
+    btnCancelarArticulo.setEnabled(false);
     
     //vacia los campos en ""
     txtIdArticulo.setText("");
@@ -111,6 +120,12 @@ public class Articulos extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         txtMargen = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txtBuscarArticulo = new javax.swing.JTextField();
+        btnBuscarArticulo = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblConsultaArticulos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -205,6 +220,30 @@ public class Articulos extends javax.swing.JFrame {
             }
         });
 
+        jLabel10.setText("Buscar Articulo: ");
+
+        btnBuscarArticulo.setText("Buscar");
+        btnBuscarArticulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarArticuloActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText("Consulta de Artículos");
+
+        tblConsultaArticulos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(tblConsultaArticulos);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -263,8 +302,20 @@ public class Articulos extends javax.swing.JFrame {
                         .addGap(14, 14, 14)
                         .addComponent(btnCancelarArticulo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(60, Short.MAX_VALUE))
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtBuscarArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnBuscarArticulo))
+                            .addComponent(jScrollPane1))
+                        .addGap(82, 82, 82)))
+                .addGap(60, 60, 60))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -305,7 +356,16 @@ public class Articulos extends javax.swing.JFrame {
                     .addComponent(btnGuardarArticulo)
                     .addComponent(btnCancelarArticulo)
                     .addComponent(btnSalir))
-                .addContainerGap(223, Short.MAX_VALUE))
+                .addGap(4, 4, 4)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(txtBuscarArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscarArticulo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1)
+                .addGap(23, 23, 23))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -423,7 +483,9 @@ public class Articulos extends javax.swing.JFrame {
             {    
                 mensaje="Operación Satisfactoria";
                 JOptionPane.showMessageDialog(null, mensaje);
-               // CargarTablaUsuarios("");
+                CargarTablaArticulos("");
+                habilitar();//habilita los campor para la carga de datos
+                inhabilitar();
             }
             
             
@@ -434,6 +496,55 @@ public class Articulos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex);
         }
     }//GEN-LAST:event_btnGuardarArticuloActionPerformed
+
+    //carga tabla usuarios
+    void CargarTablaArticulos(String valor){
+        String sSQL="";
+       
+        ///configuramos la tabla.
+        String [] titulos= {"idArticulo","descripcion","unidad_de_venta","fecha_de_ingreso","precio_costo","precio_vigente","margen","Proveedor_IdProveedor"};
+        String [] registro= new String[8];
+        modelo = new DefaultTableModel(null,titulos);
+        ///realizamos la conexion con la bdd.
+        ConexionMySQL mysql= new ConexionMySQL();
+        Connection cn= mysql.Conectar();
+        
+       ///ingresamos la consulta
+        sSQL="SELECT idArticulo, descripcion, unidad_de_venta,fecha_ingreso_inicial, precio_costo, precio_vigente,margen, Proveedor_IdProveedor FROM articulo " +
+                "WHERE CONCAT (idArticulo,' ',descripcion,' ', fecha_ingreso_inicial,' ', precio_costo,' ',precio_vigente,' ', margen,' ', Proveedor_IdProveedor) LIKE '%"+valor+"%'";
+        
+        try 
+        {
+            Statement st= cn.createStatement();
+            ResultSet rs= st.executeQuery(sSQL);
+            
+            while (rs.next())
+            {
+                registro[0]=rs.getString("idArticulo");
+                registro[1]=rs.getString("descripcion");
+                registro[2]=rs.getString("unidad_de_venta");
+                registro[3]=rs.getString("fecha_de_ingreso");
+                registro[4]=rs.getString("precio_costo");
+                registro[5]=rs.getString("precio_vigente");
+                registro[6]=rs.getString("margen");
+                registro[7]=rs.getString("Permiso_IdPermiso");
+                
+                modelo.addRow(registro);
+              }
+            tblConsultaArticulos.setModel(modelo);
+                        
+        }
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+        
+  }
+    
+    private void btnBuscarArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarArticuloActionPerformed
+        String valor=txtBuscarArticulo.getText();
+        
+        CargarTablaArticulos(valor);
+    }//GEN-LAST:event_btnBuscarArticuloActionPerformed
 
     /**
      * @param args the command line arguments
@@ -471,11 +582,14 @@ public class Articulos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscarArticulo;
     private javax.swing.JButton btnCancelarArticulo;
     private javax.swing.JButton btnGuardarArticulo;
     private javax.swing.JButton btnNuevoArticulo;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -485,6 +599,9 @@ public class Articulos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblConsultaArticulos;
+    private javax.swing.JTextField txtBuscarArticulo;
     private javax.swing.JTextField txtCantidadTotal;
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtFechaIngreso;
