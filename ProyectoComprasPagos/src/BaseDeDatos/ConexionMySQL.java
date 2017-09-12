@@ -22,8 +22,10 @@ public ConexionMySQL()
         Connection link= null;
         try
         {
+            //cargamos el driver mysql que permite conectarse
             Class.forName("org.gjt.mm.mysql.Driver");
             
+            //enlace hacia la base de datos
             link= DriverManager.getConnection(this.URL, this.user,this.pass);
                         
         }
