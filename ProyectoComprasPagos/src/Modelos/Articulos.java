@@ -31,6 +31,52 @@ public class Articulos extends javax.swing.JFrame {
         inhabilitar();
     }
     
+    //carga tabla Articulos
+    void CargarTablaArticulos(String valor){
+        String sSQL="";
+       
+        ///configuramos la tabla.
+        String [] titulos= {"idArticulo","descripcion","Unidad de Venta","Fecha Ingreso","Precio Costo","Precio Vigente","Margen","IdProveedor","Cantidad Total"};
+        String [] registro= new String[9];
+        modelo = new DefaultTableModel(null,titulos);
+        ///realizamos la conexion con la bdd.
+        ConexionMySQL mysql= new ConexionMySQL();
+        Connection cn= mysql.Conectar();
+        
+       ///ingresamos la consulta
+        sSQL="SELECT idArticulo, descripcion, unidad_de_venta,fecha_ingreso_inicial, precio_costo, precio_vigente,margen, Proveedor_IdProveedor,cantidad_total FROM articulo " +
+                "WHERE CONCAT (idArticulo,' ',descripcion,' ', fecha_ingreso_inicial,' ', precio_costo,' ',precio_vigente,' ', margen,' ', Proveedor_IdProveedor) LIKE '%"+valor+"%'";
+        
+        try 
+        {
+            Statement st= cn.createStatement();
+            ResultSet rs= st.executeQuery(sSQL);
+            
+            while (rs.next())
+            {
+                registro[0]=rs.getString("idArticulo");
+                registro[1]=rs.getString("descripcion");
+                registro[2]=rs.getString("unidad_de_venta");
+                registro[3]=rs.getString("fecha_ingreso_inicial");
+                registro[4]=rs.getString("precio_costo");
+                registro[5]=rs.getString("precio_vigente");
+                registro[6]=rs.getString("margen");
+                registro[7]=rs.getString("Proveedor_IdProveedor");
+                registro[8]=rs.getString("cantidad_total");
+                
+                modelo.addRow(registro);
+              }
+            tblConsultaArticulos.setModel(modelo);
+                        
+        }
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+        
+  }
+    
+    
+    
     void habilitar()
     {
           //habilita cada opción
@@ -43,6 +89,8 @@ public class Articulos extends javax.swing.JFrame {
     txtMargen.setEnabled(true);
     txtIdProveedor.setEnabled(true);
     txtCantidadTotal.setEnabled(true);
+    btnGuardarArticulo.setEnabled(true);
+    btnCancelarArticulo.setEnabled(true);
     //vacia los campos en ""
     txtIdArticulo.setText("");
     txtDescripcion.setText("");
@@ -249,6 +297,10 @@ public class Articulos extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
@@ -312,10 +364,8 @@ public class Articulos extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtBuscarArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnBuscarArticulo))
-                            .addComponent(jScrollPane1))
-                        .addGap(82, 82, 82)))
-                .addGap(60, 60, 60))
+                                .addComponent(btnBuscarArticulo)))))
+                .addContainerGap(483, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -364,17 +414,18 @@ public class Articulos extends javax.swing.JFrame {
                     .addComponent(txtBuscarArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscarArticulo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1)
-                .addGap(23, 23, 23))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(267, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(300, 300, 300))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -432,7 +483,7 @@ public class Articulos extends javax.swing.JFrame {
         ConexionMySQL mysql= new ConexionMySQL();
         Connection cn= mysql.Conectar();
         ///STRING A UTILIZAR
-        String idArt,descr, unid,fecha,pCosto,pVigente,marg,idProv;
+        String idArt,descr, unid,fecha,pCosto,pVigente,marg,idProv,cantidad;
         String sSQL="";
         String mensaje;
         idArt=txtIdArticulo.getText();
@@ -443,12 +494,13 @@ public class Articulos extends javax.swing.JFrame {
         pVigente= txtPrecioVigente.getText();
         marg=txtMargen.getText();
         idProv= txtIdProveedor.getText();
+        cantidad=txtCantidadTotal.getText();
                 
         ///creamos la consulta sql
         if (accion.equals("Insertar"))
         {
-            sSQL="INSERT INTO articulo (idArticulo, descripcion, unidad_De_Venta, fecha_ingreso_inicial, precio_costo,precio_vigente,Proveedor_idProveedor) "+
-                "VALUES (?,?,?,?,?,?,?)";
+            sSQL="INSERT INTO articulo (idArticulo, descripcion, unidad_De_Venta, fecha_ingreso_inicial, precio_costo,precio_vigente,margen,Proveedor_idProveedor,cantidad_total) "+
+                "VALUES (?,?,?,?,?,?,?,?,?)";
            mensaje="Operación Satisfactoria";
         }
         /*
@@ -475,7 +527,9 @@ public class Articulos extends javax.swing.JFrame {
             pst.setString(4, fecha);
             pst.setString(5, pCosto);
             pst.setString(6, pVigente);
-            pst.setString(7, idProv);
+            pst.setString(7, marg);
+            pst.setString(8, idProv);
+            pst.setString(9, cantidad);
             
             int n = pst.executeUpdate();
             
@@ -497,48 +551,7 @@ public class Articulos extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGuardarArticuloActionPerformed
 
-    //carga tabla usuarios
-    void CargarTablaArticulos(String valor){
-        String sSQL="";
-       
-        ///configuramos la tabla.
-        String [] titulos= {"idArticulo","descripcion","unidad_de_venta","fecha_de_ingreso","precio_costo","precio_vigente","margen","Proveedor_IdProveedor"};
-        String [] registro= new String[8];
-        modelo = new DefaultTableModel(null,titulos);
-        ///realizamos la conexion con la bdd.
-        ConexionMySQL mysql= new ConexionMySQL();
-        Connection cn= mysql.Conectar();
-        
-       ///ingresamos la consulta
-        sSQL="SELECT idArticulo, descripcion, unidad_de_venta,fecha_ingreso_inicial, precio_costo, precio_vigente,margen, Proveedor_IdProveedor FROM articulo " +
-                "WHERE CONCAT (idArticulo,' ',descripcion,' ', fecha_ingreso_inicial,' ', precio_costo,' ',precio_vigente,' ', margen,' ', Proveedor_IdProveedor) LIKE '%"+valor+"%'";
-        
-        try 
-        {
-            Statement st= cn.createStatement();
-            ResultSet rs= st.executeQuery(sSQL);
-            
-            while (rs.next())
-            {
-                registro[0]=rs.getString("idArticulo");
-                registro[1]=rs.getString("descripcion");
-                registro[2]=rs.getString("unidad_de_venta");
-                registro[3]=rs.getString("fecha_de_ingreso");
-                registro[4]=rs.getString("precio_costo");
-                registro[5]=rs.getString("precio_vigente");
-                registro[6]=rs.getString("margen");
-                registro[7]=rs.getString("Permiso_IdPermiso");
-                
-                modelo.addRow(registro);
-              }
-            tblConsultaArticulos.setModel(modelo);
-                        
-        }
-        catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex);
-        }
-        
-  }
+    
     
     private void btnBuscarArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarArticuloActionPerformed
         String valor=txtBuscarArticulo.getText();
