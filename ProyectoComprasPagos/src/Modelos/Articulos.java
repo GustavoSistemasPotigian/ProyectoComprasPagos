@@ -147,6 +147,8 @@ public class Articulos extends javax.swing.JFrame {
     txtCantidadTotal.setEnabled(true);
     btnGuardarArticulo.setEnabled(true);
     btnCancelarArticulo.setEnabled(true);
+    btnCalcularMargen.setEnabled(true);
+    btnCalcularPrecioVigente.setEnabled(true);
     //vacia los campos en ""
     txtIdArticulo.setText("");
     txtDescripcion.setText("");
@@ -177,7 +179,8 @@ public class Articulos extends javax.swing.JFrame {
     txtCantidadTotal.setEnabled(false);
     btnGuardarArticulo.setEnabled(false);
     btnCancelarArticulo.setEnabled(false);
-    
+    btnCalcularMargen.setEnabled(false);
+    btnCalcularPrecioVigente.setEnabled(false);
     //vacia los campos en ""
     txtIdArticulo.setText("");
     txtDescripcion.setText("");
@@ -233,6 +236,8 @@ public class Articulos extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblConsultaArticulos = new javax.swing.JTable();
+        btnCalcularMargen = new javax.swing.JButton();
+        btnCalcularPrecioVigente = new javax.swing.JButton();
 
         jPopupMenu1.setComponentPopupMenu(jPopupMenu1);
 
@@ -370,6 +375,20 @@ public class Articulos extends javax.swing.JFrame {
         tblConsultaArticulos.setComponentPopupMenu(jPopupMenu1);
         jScrollPane1.setViewportView(tblConsultaArticulos);
 
+        btnCalcularMargen.setText("Calcular Margen");
+        btnCalcularMargen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCalcularMargenActionPerformed(evt);
+            }
+        });
+
+        btnCalcularPrecioVigente.setText("Calcular Precio Vigente");
+        btnCalcularPrecioVigente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCalcularPrecioVigenteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -415,16 +434,23 @@ public class Articulos extends javax.swing.JFrame {
                                                     .addComponent(jLabel5)
                                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                     .addComponent(txtPrecioCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                        .addGap(35, 35, 35)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel9)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(txtMargen, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(35, 35, 35)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                                        .addComponent(jLabel9)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                        .addComponent(txtMargen, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                                        .addComponent(jLabel8)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                        .addComponent(txtIdProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel8)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(txtIdProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                                .addGap(141, 141, 141)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(btnCalcularPrecioVigente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(btnCalcularMargen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(btnNuevoArticulo)
@@ -475,12 +501,14 @@ public class Articulos extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(txtPrecioVigente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPrecioVigente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCalcularMargen))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(txtCantidadTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(txtCantidadTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCalcularPrecioVigente))
+                .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNuevoArticulo)
                     .addComponent(btnGuardarArticulo)
@@ -495,7 +523,7 @@ public class Articulos extends javax.swing.JFrame {
                     .addComponent(btnBuscarArticulo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(267, Short.MAX_VALUE))
+                .addContainerGap(251, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -579,24 +607,27 @@ public class Articulos extends javax.swing.JFrame {
         ///creamos la consulta sql
         if (accion.equals("Insertar"))
         {
-            sSQL="INSERT INTO articulo (idArticulo, descripcion, unidad_De_Venta, fecha_ingreso_inicial, precio_costo,precio_vigente,margen,Proveedor_idProveedor,cantidad_total) "+
+            sSQL="INSERT INTO articulo (idArticulo, descripcion, unidad_de_venta, fecha_ingreso_inicial, precio_costo,precio_vigente,margen,proveedor_idproveedor,cantidad_total) "+
                 "VALUES (?,?,?,?,?,?,?,?,?)";
            mensaje="Operación Satisfactoria";
         }
-        /*
+        
         else if (accion.equals("Modificar"))
         {
-            sSQL="UPDATE usuario " +
-                 "SET nombre = ?, " +
-                 "apellido= ?, "+
-                 "users= ?, " +
-                 "clave= ?, " +
-                 "cargo= ? ," +
-                 "Permiso_idpermiso= ? "+   
-                 "WHERE idUsuario= " + id_actualizar;
+            sSQL="UPDATE articulo " +
+                 "SET idArticulo= ?," +
+                 "descripcion= ?, "+
+                 "unidad_de_venta= ?, " +
+                 "fecha_ingreso_inicial= ?, " +
+                 "precio_costo= ? ," +
+                 "precio_vigente= ? ," +
+                 "margen=?," +   
+                 "proveedor_idproveedor= ? , "+
+                 "cantidad_total= ? " +  
+                 "WHERE idArticulo= " + id_actualizar;
             mensaje="Operación Satisfactoría";
         }
-        */
+        
         
         try 
         {
@@ -618,7 +649,7 @@ public class Articulos extends javax.swing.JFrame {
                 mensaje="Operación Satisfactoria";
                 JOptionPane.showMessageDialog(null, mensaje);
                 CargarTablaArticulos("");
-                habilitar();//habilita los campor para la carga de datos
+                habilitar();//habilita los campos para la carga de datos
                 inhabilitar();
             }
             
@@ -692,6 +723,15 @@ public class Articulos extends javax.swing.JFrame {
                     
                 }
     }//GEN-LAST:event_mnEliminarActionPerformed
+
+    private void btnCalcularPrecioVigenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularPrecioVigenteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCalcularPrecioVigenteActionPerformed
+
+    private void btnCalcularMargenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularMargenActionPerformed
+        int valorMargen;
+      
+    }//GEN-LAST:event_btnCalcularMargenActionPerformed
   void BuscarUsuarioEliminar(String idArticulo)
    {
        String sSQL="";
@@ -762,6 +802,8 @@ public class Articulos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarArticulo;
+    private javax.swing.JButton btnCalcularMargen;
+    private javax.swing.JButton btnCalcularPrecioVigente;
     private javax.swing.JButton btnCancelarArticulo;
     private javax.swing.JButton btnGuardarArticulo;
     private javax.swing.JButton btnNuevoArticulo;
