@@ -24,6 +24,8 @@ public class Articulos extends javax.swing.JFrame {
      * Creates new form Articulos
      */
     DefaultTableModel modelo;
+    
+    
     public Articulos() {
         initComponents();
         CargarTablaArticulos("");
