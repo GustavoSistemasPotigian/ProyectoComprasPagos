@@ -112,6 +112,12 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
 
         jlbComprador.setText("Comprador: ");
 
+        txtComprador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCompradorActionPerformed(evt);
+            }
+        });
+
         jlbSector.setText("Sector: ");
 
         txtSector.addActionListener(new java.awt.event.ActionListener() {
@@ -398,7 +404,36 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtIdProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdProveedorActionPerformed
-        // TODO add your handling code here:
+        ///realizamos la conexion con la bdd.
+        
+        ConexionMySQL mysql= new ConexionMySQL();
+        Connection cn= mysql.Conectar();
+        
+       ///ingresamos la consulta
+        String sSQL="", idProv="";
+        idProv= txtIdProveedor.getText();
+        
+        sSQL= "select pr.razon_social as razon from proveedor as pr where pr.idproveedor LIKE '%"+idProv+"%'";
+        
+        try 
+        {
+            Statement st= cn.createStatement();
+            ResultSet rs= st.executeQuery(sSQL);
+             if (rs.next() == false)
+            {
+                String mensaje="el proveedor no existe";
+                JOptionPane.showMessageDialog(null, mensaje);
+            
+            }
+             else 
+             {
+                this.jcomProveedor.removeAllItems();
+                this.jcomProveedor.addItem(rs.getString("razon"));                 
+              }          
+             }
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        } 
     }//GEN-LAST:event_txtIdProveedorActionPerformed
 
     private void txtImporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImporteActionPerformed
@@ -406,11 +441,69 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     }//GEN-LAST:event_txtImporteActionPerformed
 
     private void txtSectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSectorActionPerformed
-        // TODO add your handling code here:
+         ///realizamos la conexion con la bdd.
+        
+        ConexionMySQL mysql= new ConexionMySQL();
+        Connection cn= mysql.Conectar();
+        
+       ///ingresamos la consulta
+        String sSQL="", idSec="";
+        idSec= txtSector.getText();
+        
+        sSQL= "select descripcion from sector where idsector LIKE '%"+idSec+"%'";
+        
+        try 
+        {
+            Statement st= cn.createStatement();
+            ResultSet rs= st.executeQuery(sSQL);
+             if (rs.next() == false)
+            {
+                String mensaje="el Sector no existe";
+                JOptionPane.showMessageDialog(null, mensaje);
+            
+            }
+             else 
+             {
+                this.jcomSector.removeAllItems();
+                this.jcomSector.addItem(rs.getString("descripcion"));                 
+              }          
+             }
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        } 
     }//GEN-LAST:event_txtSectorActionPerformed
 
     private void txtMotivoSNCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMotivoSNCActionPerformed
-        // TODO add your handling code here:
+        ///realizamos la conexion con la bdd.
+        
+        ConexionMySQL mysql= new ConexionMySQL();
+        Connection cn= mysql.Conectar();
+        
+       ///ingresamos la consulta
+        String sSQL="", idMotiv="";
+        idMotiv= txtMotivoSNC.getText();
+        
+        sSQL= "select descripcion from motivo_snc where idmotivo_snc LIKE '%"+idMotiv+"%'";
+        
+        try 
+        {
+            Statement st= cn.createStatement();
+            ResultSet rs= st.executeQuery(sSQL);
+             if (rs.next() == false)
+            {
+                String mensaje="El Motivo no existe";
+                JOptionPane.showMessageDialog(null, mensaje);
+            
+            }
+             else 
+             {
+                this.jcomMotivo.removeAllItems();
+                this.jcomMotivo.addItem(rs.getString("descripcion"));                 
+              }          
+             }
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        } 
     }//GEN-LAST:event_txtMotivoSNCActionPerformed
 
     private void txtDescuentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescuentoActionPerformed
@@ -448,6 +541,33 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
 
     private void jcomProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcomProveedorActionPerformed
          
+        ///realizamos la conexion con la bdd.
+        
+        ConexionMySQL mysql= new ConexionMySQL();
+        Connection cn= mysql.Conectar();
+        
+       ///ingresamos la consulta
+        String sSQL="", razon="";
+        razon=(String) jcomProveedor.getSelectedItem();
+        
+        sSQL= "select pr.idproveedor as id from proveedor as pr where pr.razon_social LIKE '%"+razon+"%'";
+        
+        try 
+        {
+            Statement st= cn.createStatement();
+            ResultSet rs= st.executeQuery(sSQL);
+            
+            while (rs.next())///recorre cada valor de la consulta y la guarda en las variables.
+            {
+                txtIdProveedor.setText(rs.getString("id"));
+        
+            }           
+           
+             }
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        } 
+              
     }//GEN-LAST:event_jcomProveedorActionPerformed
 
     private void jcomClaseProveedorMenu()
@@ -496,16 +616,122 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void jcomCompradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcomCompradorActionPerformed
+        ///realizamos la conexion con la bdd.
+        
+        ConexionMySQL mysql= new ConexionMySQL();
+        Connection cn= mysql.Conectar();
+        
+       ///ingresamos la consulta
+        String sSQL="", comprador="";
+        comprador=(String) jcomComprador.getSelectedItem();
+        
+        sSQL= "select usr.idusuario as id from usuario as usr where CONCAT (usr.apellido,\" \",usr.nombre) LIKE '%"+comprador+"%'";
+        
+        try 
+        {
+            Statement st= cn.createStatement();
+            ResultSet rs= st.executeQuery(sSQL);
+            
+            while (rs.next())///recorre cada valor de la consulta y la guarda en las variables.
+            {
+                txtComprador.setText(rs.getString("id"));
+                
+                
+            }           
            
+             }
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }   
     }//GEN-LAST:event_jcomCompradorActionPerformed
 
     private void jcomSectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcomSectorActionPerformed
-        // TODO add your handling code here:
+       ///realizamos la conexion con la bdd.
+        
+        ConexionMySQL mysql= new ConexionMySQL();
+        Connection cn= mysql.Conectar();
+        
+       ///ingresamos la consulta
+        String sSQL="", secDescr="";
+        secDescr=(String) jcomSector.getSelectedItem();
+        
+        sSQL= "select idSector as id from sector where descripcion LIKE '%"+secDescr+"%'";
+        
+        try 
+        {
+            Statement st= cn.createStatement();
+            ResultSet rs= st.executeQuery(sSQL);
+            
+            while (rs.next())///recorre cada valor de la consulta y la guarda en las variables.
+            {
+                txtSector.setText(rs.getString("id"));
+            }           
+           
+             }
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }   
     }//GEN-LAST:event_jcomSectorActionPerformed
 
     private void jcomMotivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcomMotivoActionPerformed
-        // TODO add your handling code here:
+        ///realizamos la conexion con la bdd.
+        
+        ConexionMySQL mysql= new ConexionMySQL();
+        Connection cn= mysql.Conectar();
+        
+       ///ingresamos la consulta
+        String sSQL="", motivo="";
+        motivo=(String) jcomMotivo.getSelectedItem();
+        
+        sSQL= "select idmotivo_snc as id from motivo_snc where descripcion LIKE '%"+motivo+"%'";
+        
+        try 
+        {
+            Statement st= cn.createStatement();
+            ResultSet rs= st.executeQuery(sSQL);
+            
+            while (rs.next())///recorre cada valor de la consulta y la guarda en las variables.
+            {
+                txtMotivoSNC.setText(rs.getString("id"));
+            }           
+           
+             }
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }   
     }//GEN-LAST:event_jcomMotivoActionPerformed
+
+    private void txtCompradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCompradorActionPerformed
+         ///realizamos la conexion con la bdd.
+        
+        ConexionMySQL mysql= new ConexionMySQL();
+        Connection cn= mysql.Conectar();
+        
+       ///ingresamos la consulta
+        String sSQL="", idComp="";
+        idComp= txtComprador.getText();
+        
+        sSQL= "select concat (apellido,\" \", nombre) as comprador from usuario where idusuario LIKE '%"+idComp+"%'";
+        try 
+        {
+            Statement st= cn.createStatement();
+            ResultSet rs= st.executeQuery(sSQL);
+             if (rs.next() == false)
+            {
+                String mensaje="el Comprador no existe";
+                JOptionPane.showMessageDialog(null, mensaje);
+            
+            }
+             else 
+             {
+                this.jcomComprador.removeAllItems();
+                this.jcomComprador.addItem(rs.getString("comprador"));                 
+              }          
+             }
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        } 
+    }//GEN-LAST:event_txtCompradorActionPerformed
     
     private void jcomClaseMotivoMenu()
     {
