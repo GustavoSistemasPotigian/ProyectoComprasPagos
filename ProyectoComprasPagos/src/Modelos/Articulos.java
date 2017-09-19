@@ -102,6 +102,7 @@ public class Articulos extends javax.swing.JFrame {
         Connection cn= mysql.Conectar();
         
        ///ingresamos la consulta
+       
         sSQL="SELECT idArticulo, descripcion, unidad_de_venta,fecha_ingreso_inicial, precio_costo, precio_vigente,margen, Proveedor_IdProveedor,cantidad_total FROM articulo " +
                 "WHERE CONCAT (idArticulo,' ',descripcion,' ', fecha_ingreso_inicial,' ', precio_costo,' ',precio_vigente,' ', margen,' ', Proveedor_IdProveedor) LIKE '%"+valor+"%'";
         
