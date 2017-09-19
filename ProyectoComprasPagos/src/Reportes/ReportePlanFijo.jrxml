@@ -1,29 +1,232 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD JasperReport//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
-
-<jasperReport name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-    <background>
-        <band/>
-    </background>
-    <title>
-        <band height="79"/>
-    </title>
-    <pageHeader>
-        <band height="35"/>
-    </pageHeader>
-    <columnHeader>
-        <band height="61"/>
-    </columnHeader>
-    <detail>
-        <band height="125"/>
-    </detail>
-    <columnFooter>
-        <band height="45"/>
-    </columnFooter>
-    <pageFooter>
-        <band height="54"/>
-    </pageFooter>
-    <summary>
-        <band height="42"/>
-    </summary>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e596ea71-a30e-42aa-ab43-cc3389ff0312">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="valor" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select pl.idPlan_descuento as Plan_Nro, pl.tipo_plan as Tipo,pr.razon_social as Proveedor, 
+			pl.fechaActual as Fecha, pl.importe as Importe, ti.descripcion_iva as IVA,  
+             sec.descripcion as Sector, mot.descripcion as MotivoSNC, pl.descuento as Descuento, 
+             pl.descuento_descripcion, pl.obs_proveedor, pl.obs_comprador, 
+             concat (usr.apellido, ' ' , usr.nombre) as Comprador 
+             from plan_descuento as pl  
+             INNER JOIN proveedor as pr ON pr.idproveedor = pl.Proveedor_idProveedor 
+             INNER JOIN sector as sec ON sec.idSector= pl.Sector_idSector 
+             INNER JOIN motivo_snc as mot ON mot.idMotivo_SNC= pl.Motivo_SNC_idMotivo_SNC 
+             INNER JOIN usuario as usr ON usr.idUsuario= pl.Usuario_idUsuario 
+             INNER JOIN tipo_iva as ti ON ti.idTipo_IVA= pl.tipo_IVA_idtipo_IVA 
+             WHERE CONCAT(pl.idPlan_descuento, ' ',pl.tipo_plan, ' ', importe, ' ',pr.razon_social, ' ', pl.fechaActual, ' ', sec.descripcion, ' ',mot.descripcion, ' ', pl.descuento,' ' ,ti.descripcion_iva, ' ',  concat (usr.apellido, ' ' , usr.nombre)) 
+			LIKE  @valor;]]>
+	</queryString>
+	<field name="Plan_Nro" class="java.lang.Integer"/>
+	<field name="Tipo" class="java.lang.String"/>
+	<field name="Proveedor" class="java.lang.String"/>
+	<field name="Fecha" class="java.sql.Date"/>
+	<field name="Importe" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="IVA" class="java.lang.String"/>
+	<field name="Sector" class="java.lang.String"/>
+	<field name="MotivoSNC" class="java.lang.String"/>
+	<field name="Descuento" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="descuento_descripcion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="obs_proveedor" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="obs_comprador" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Comprador" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="126" y="32" width="294" height="35" uuid="687e2bfc-1e58-4d4d-9c21-8106bc52c12a"/>
+				<textElement>
+					<font size="26" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[PLAN IMPORTE FIJO]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="177" splitType="Stretch">
+			<staticText>
+				<reportElement x="126" y="22" width="100" height="20" uuid="afcff809-168a-44f8-8d44-44c074f5ec04"/>
+				<textElement textAlignment="Center">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="238" y="22" width="100" height="20" uuid="a7df89e7-8265-43d5-affa-5db8edc2d06e"/>
+				<textElement textAlignment="Center">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Proveedor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="358" y="22" width="100" height="20" uuid="4ff7500d-96b4-46c3-a03b-86e6ff5388bc"/>
+				<textElement textAlignment="Center">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="206" y="102" width="100" height="20" uuid="ca6e2b95-df19-407e-aa29-834c14074456"/>
+				<textElement textAlignment="Center">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[IVA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="102" width="100" height="20" uuid="b5f51351-9f9c-49ff-9007-b28419fba0da"/>
+				<textElement textAlignment="Center">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Importe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="368" y="105" width="100" height="20" uuid="6546d764-e62b-4bec-8378-04bbf4be059f"/>
+				<textElement textAlignment="Center">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Sector]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="21" width="100" height="20" uuid="a16b8e33-180a-406b-86c8-7288d92bda0f"/>
+				<textElement textAlignment="Center">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Plan_Nro]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="16" y="42" width="100" height="20" uuid="9290fad2-2d45-4f9c-b0f8-38ec705e84ad"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Plan_Nro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="126" y="41" width="100" height="20" uuid="ace0c72e-3263-4227-bb20-ba95b93758a3"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Tipo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="358" y="42" width="100" height="20" uuid="bf46450b-87e0-42e1-8592-4ac310b66b3f"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="238" y="42" width="100" height="20" uuid="706a62d8-51df-457b-9f6d-7810138d8738"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Proveedor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="16" y="122" width="100" height="20" uuid="d2f9f811-cbc9-4dc5-b804-c245e903e372"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Importe}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="206" y="122" width="100" height="20" uuid="bc827971-5f09-41c6-a9d8-e9c9c557e7b6"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{IVA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="368" y="125" width="100" height="20" uuid="ae61c44c-01ee-4ccf-9c66-12dd829a1ff7"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Sector}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="171" splitType="Stretch">
+			<staticText>
+				<reportElement x="37" y="76" width="279" height="20" uuid="b24b221d-3a71-4c78-937c-ee13f13f9071"/>
+				<textElement>
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[obs_proveedor]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="37" y="96" width="279" height="20" uuid="615c772c-15a5-4042-9c81-e908614992e3"/>
+				<textFieldExpression><![CDATA[$F{obs_proveedor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="37" y="25" width="100" height="20" uuid="99c01f83-4e72-4c84-8c06-904b6a96519e"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Descuento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="37" y="5" width="100" height="20" uuid="d84da176-3250-4a96-8954-61194de63c8b"/>
+				<textElement textAlignment="Center">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Descuento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="158" y="5" width="169" height="20" uuid="edab714e-e203-4c64-a62b-209e91c85ccf"/>
+				<textElement textAlignment="Center">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[descuento_descripcion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="358" y="5" width="100" height="20" uuid="46c852a4-9022-4053-a2ae-ed4f51539683"/>
+				<textElement textAlignment="Center">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[MotivoSNC]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="358" y="25" width="100" height="20" uuid="5767b0f1-e6fd-40fa-9e25-fffd599099e4"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{MotivoSNC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="158" y="25" width="169" height="20" uuid="dca2b94f-d214-402e-a414-12df6593cafe"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{descuento_descripcion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="37" y="116" width="279" height="20" uuid="9bc97b32-c3a3-4a44-b0ac-8ce0c5dd3978"/>
+				<textElement>
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[obs_comprador]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="37" y="136" width="279" height="20" uuid="5ff2cfff-338d-4d4e-9c03-33244da0a3d1"/>
+				<textFieldExpression><![CDATA[$F{obs_comprador}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="58" splitType="Stretch">
+			<image>
+				<reportElement x="383" y="8" width="100" height="50" uuid="a54ea857-6588-49ef-b318-2b0fee3df02a"/>
+			</image>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="26" y="0" width="100" height="20" uuid="ae9efe34-d16f-4330-90c2-518645bcbde6"/>
+				<text><![CDATA[FIRMAS:]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
 </jasperReport>
