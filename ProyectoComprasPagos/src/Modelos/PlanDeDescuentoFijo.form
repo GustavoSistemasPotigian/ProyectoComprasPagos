@@ -41,6 +41,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jScrollPane1" pref="590" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                               <Component id="btnConfirmar" min="-2" max="-2" attributes="0"/>
@@ -50,7 +51,11 @@
                               <Component id="txtCantCopias" min="-2" pref="34" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane1" pref="580" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jlbCuota" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="btnCalcular" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
               </Group>
@@ -63,17 +68,22 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jlbCuota" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnCalcular" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="114" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="107" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnConfirmar" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
-                  <Component id="btnCancelar" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
-                  <Component id="btnSalir" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                   <Component id="jlbCantidadDeCopias" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtCantCopias" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnCancelar" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
+                  <Component id="btnSalir" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="312" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="294" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -83,7 +93,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Plan De Descuentos Fijos"/>
+            <TitledBorder title="PLAN IMPORTE FIJO- Alta"/>
           </Border>
         </Property>
       </Properties>
@@ -127,15 +137,19 @@
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="txtComprador" min="-2" pref="53" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jcomComprador" max="32767" attributes="0"/>
+                                          <Component id="jcomComprador" pref="299" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <Component id="txtImporte" min="-2" pref="74" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="jlbFechaDebito" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="txtFechaDebito" min="-2" pref="87" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
                                           <Component id="rbIVA21" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                                           <Component id="rbIVA10" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <Component id="txtSector" min="-2" pref="49" max="-2" attributes="0"/>
@@ -177,7 +191,7 @@
                       <Group type="102" attributes="0">
                           <Component id="btnNuevoPlan" min="-2" pref="115" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="jButton1" min="-2" pref="117" max="-2" attributes="0"/>
+                          <Component id="btnConsultasPlan" min="-2" pref="117" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -191,7 +205,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnNuevoPlan" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="jButton1" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="btnConsultasPlan" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="26" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -208,6 +222,8 @@
                           <Component id="txtImporte" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="rbIVA21" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="rbIVA10" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jlbFechaDebito" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtFechaDebito" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -366,10 +382,13 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNuevoPlanActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="btnConsultasPlan">
           <Properties>
             <Property name="text" type="java.lang.String" value="Consultas"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConsultasPlanActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="jcomProveedor">
           <Properties>
@@ -443,6 +462,16 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
+        <Component class="javax.swing.JLabel" name="jlbFechaDebito">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Fecha Debito: "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtFechaDebito">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtFechaDebitoActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -471,6 +500,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Confirmar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConfirmarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnSalir">
       <Properties>
@@ -497,6 +529,22 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Cantidad de Copias"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jlbCuota">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="11" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Cuota:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnCalcular">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Calcular"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCalcularActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

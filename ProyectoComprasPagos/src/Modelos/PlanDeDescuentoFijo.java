@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,7 +21,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     /**
      * Creates new form PlanDeDescuento
      */
-    //DefaultTableModel modelo;
+    DefaultTableModel modelo;
     
     public PlanDeDescuentoFijo() {
         initComponents();
@@ -60,11 +61,13 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
         jlbObsComprador = new javax.swing.JLabel();
         txtObsComprador = new javax.swing.JTextField();
         btnNuevoPlan = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnConsultasPlan = new javax.swing.JButton();
         jcomProveedor = new javax.swing.JComboBox<>();
         jcomComprador = new javax.swing.JComboBox<>();
         jcomSector = new javax.swing.JComboBox<>();
         jcomMotivo = new javax.swing.JComboBox<>();
+        jlbFechaDebito = new javax.swing.JLabel();
+        txtFechaDebito = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCuotasVisual = new javax.swing.JTable();
         btnConfirmar = new javax.swing.JButton();
@@ -72,10 +75,12 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
         txtCantCopias = new javax.swing.JTextField();
         jlbCantidadDeCopias = new javax.swing.JLabel();
+        jlbCuota = new javax.swing.JLabel();
+        btnCalcular = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Plan De Descuentos Fijos"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("PLAN IMPORTE FIJO- Alta"));
 
         jlbProveedor.setBackground(new java.awt.Color(51, 204, 0));
         jlbProveedor.setText("Proveedor:");
@@ -159,7 +164,12 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Consultas");
+        btnConsultasPlan.setText("Consultas");
+        btnConsultasPlan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultasPlanActionPerformed(evt);
+            }
+        });
 
         jcomProveedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcomProveedor.addActionListener(new java.awt.event.ActionListener() {
@@ -186,6 +196,14 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
         jcomMotivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcomMotivoActionPerformed(evt);
+            }
+        });
+
+        jlbFechaDebito.setText("Fecha Debito: ");
+
+        txtFechaDebito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFechaDebitoActionPerformed(evt);
             }
         });
 
@@ -221,14 +239,18 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txtComprador, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jcomComprador, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(jcomComprador, 0, 299, Short.MAX_VALUE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(txtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
+                                        .addComponent(jlbFechaDebito)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtFechaDebito, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(rbIVA21)
-                                        .addGap(18, 18, 18)
+                                        .addGap(10, 10, 10)
                                         .addComponent(rbIVA10)
-                                        .addGap(0, 0, Short.MAX_VALUE))
+                                        .addGap(26, 26, 26))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(txtSector, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
@@ -257,7 +279,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnNuevoPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnConsultasPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -267,7 +289,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNuevoPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnConsultasPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jlbProveedor, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -280,7 +302,9 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(rbIVA21)
-                        .addComponent(rbIVA10)))
+                        .addComponent(rbIVA10)
+                        .addComponent(jlbFechaDebito)
+                        .addComponent(txtFechaDebito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlbCuotas)
@@ -328,6 +352,11 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblCuotasVisual);
 
         btnConfirmar.setText("Confirmar");
+        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmarActionPerformed(evt);
+            }
+        });
 
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -351,6 +380,16 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
 
         jlbCantidadDeCopias.setText("Cantidad de Copias");
 
+        jlbCuota.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jlbCuota.setText("Cuota:");
+
+        btnCalcular.setText("Calcular");
+        btnCalcular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCalcularActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -370,6 +409,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addComponent(btnConfirmar)
@@ -378,7 +418,11 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtCantCopias, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jlbCuota)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnCalcular)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -386,16 +430,20 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jlbCuota)
+                    .addComponent(btnCalcular))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jlbCantidadDeCopias)
-                    .addComponent(txtCantCopias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(312, 312, 312))
+                    .addComponent(txtCantCopias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(294, 294, 294))
         );
 
         jPanel1.getAccessibleContext().setAccessibleName("PLAN IMPORTE FIJO");
@@ -520,6 +568,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
 
     private void rbIVA21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbIVA21ActionPerformed
         ///CONDICIONAL PARA QUE BLOQUEE EL BOTÓN DE IVA10%
+        
         if (rbIVA10.isEnabled()== false){
         rbIVA10.setEnabled(true);}
         else{
@@ -531,6 +580,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
 
     private void rbIVA10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbIVA10ActionPerformed
         ///CONDICIONAL PARA QUE BLOQUEE EL BOTÓN DE IVA21% 
+      
         if (rbIVA21.isEnabled()== false){
             rbIVA21.setEnabled(true);
              }
@@ -608,6 +658,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     private void btnNuevoPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoPlanActionPerformed
         ///// HABILITA TODOS LOS PUNTOS NUEVAMENTE
         habilitar();
+
     }//GEN-LAST:event_btnNuevoPlanActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -732,6 +783,164 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex);
         } 
     }//GEN-LAST:event_txtCompradorActionPerformed
+    ////CLASE PARA CALCULAR QUE TIPO DE IVA APRETO
+    String getIVA(){
+       String iva="";
+         if (rbIVA10.isSelected()== true){
+             iva="3";}
+        else{
+             if (rbIVA21.isSelected()== true)
+             { iva="2";}
+             else{
+                 iva="1";
+             }
+        }
+        
+        return iva;
+    }
+    String calcularIVA()
+    {
+        String monto="";
+        double resultado=0;
+        if (getIVA()=="2"){
+            monto= txtImporte.getText();
+            resultado= Double.parseDouble(monto);
+            resultado= (resultado*0.21);
+            monto=Double.toString(resultado);
+        }
+        else {
+            if (getIVA()=="3"){
+                monto= txtImporte.getText();
+                resultado= Double.parseDouble(monto);
+                resultado= (resultado*0.105);
+                monto=Double.toString(resultado);
+            }
+            else{
+                if (getIVA()=="1"){
+                     monto= txtImporte.getText();
+                     resultado= Double.parseDouble(monto);
+                     resultado= (resultado*0.0);
+                     monto=Double.toString(resultado);
+                
+                }
+               }
+            
+            
+            }
+            
+        
+        
+    return monto;}
+    
+    
+    String accion="Insertar";
+    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
+       //conexión a la bdd
+        ConexionMySQL mysql= new ConexionMySQL();
+        Connection cn= mysql.Conectar();
+        ///FECHA ACTUAL
+        java.util.Date date = new java.util.Date();
+        java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("yyyy-MM-dd");
+        String fecha = sdf.format(date);
+        
+        ///STRING A UTILIZAR
+        String idProve, tipoDePlan,fechaActual,importe, cuotas, idComprador,idSector;
+        String motivoSNC,descuento, descDescripcion, obsComprador, obsProveedor,tipoIVA, cantCopias;
+        String sSQL="";
+        String mensaje;
+       ///campos a cargar
+        idProve=txtIdProveedor.getText();
+        tipoDePlan="FIJO";
+        fechaActual= fecha;
+        importe=txtImporte.getText();
+        cuotas=txtCuotas.getText();
+        idComprador= txtComprador.getText();
+        idSector=txtSector.getText();
+        motivoSNC= txtMotivoSNC.getText();
+        descuento=txtDescuento.getText();
+        descDescripcion=txtDescDescuento.getText();
+        obsProveedor= txtObsProveedor.getText();
+        obsComprador=txtObsComprador.getText();
+        tipoIVA=getIVA();
+        cantCopias=txtCantCopias.getText ();
+        
+        
+        ///creamos la consulta sql
+        if (accion.equals("Insertar"))
+        {
+            sSQL="INSERT INTO plan_descuento (Proveedor_idproveedor, tipo_plan,fechaActual, importe,"
+                    + " cuotas, Usuario_idusuario,Sector_idsector,Motivo_SNC_idMotivo_SNC, descuento,"
+                    + "descuento_descripcion,obs_Proveedor, obs_Comprador, tipo_IVA_idtipo_IVA,cant_copias ) "+
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+           mensaje="Operación Satisfactoria";
+        }
+        /*
+        else if (accion.equals("Modificar"))
+        {
+            sSQL="UPDATE articulo " +
+                 "SET idArticulo= ?," +
+                 "descripcion= ?, "+
+                 "unidad_de_venta= ?, " +
+                 "fecha_ingreso_inicial= ?, " +
+                 "precio_costo= ? ," +
+                 "precio_vigente= ? ," +
+                 "margen=?," +   
+                 "proveedor_idproveedor= ? , "+
+                 "cantidad_total= ? " +  
+                 "WHERE idArticulo= " + id_actualizar;
+            mensaje="Operación Satisfactoría";
+        }
+        */
+        
+        try 
+        {
+            PreparedStatement pst= cn.prepareStatement(sSQL);
+            pst.setString(1, idProve );
+            pst.setString(2, tipoDePlan);
+            pst.setString(3, fechaActual);
+            pst.setString(4, importe);
+            pst.setString(5, cuotas);
+            pst.setString(6, idComprador);
+            pst.setString(7, idSector);
+            pst.setString(8, motivoSNC);
+            pst.setString(9, descuento);
+            pst.setString(10,descDescripcion);
+            pst.setString(11,obsProveedor);
+            pst.setString(12,obsComprador);
+            pst.setString(13,tipoIVA);
+            pst.setString(14, cantCopias);
+            int n = pst.executeUpdate();
+            
+            if (n>0)
+            {    
+                mensaje="Operación Satisfactoria";
+                JOptionPane.showMessageDialog(null, mensaje);
+               // CargarTablaCuotas("");
+                habilitar();//habilita los campos para la carga de datos
+                inhabilitar();
+            }
+            
+            
+            
+        } 
+        
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }//GEN-LAST:event_btnConfirmarActionPerformed
+
+    private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
+        cargarTablaCuotas();
+    }//GEN-LAST:event_btnCalcularActionPerformed
+
+    private void txtFechaDebitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaDebitoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFechaDebitoActionPerformed
+
+    private void btnConsultasPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultasPlanActionPerformed
+        ConsultaPlanes ventanaConsulta= new ConsultaPlanes();
+        ventanaConsulta.setVisible(true);
+    }//GEN-LAST:event_btnConsultasPlanActionPerformed
     
     private void jcomClaseMotivoMenu()
     {
@@ -814,6 +1023,51 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     
     }
     
+    private void cargarTablaCuotas()
+    {
+        String sSQL="";
+       
+        ///configuramos la tabla.
+        String [] titulos= {"Cuota","IVA","Fecha de Debito"};
+        String [] registro= new String[3];
+        modelo = new DefaultTableModel(null,titulos);
+        ///realizamos la conexion con la bdd.
+        //ConexionMySQL mysql= new ConexionMySQL();
+        //Connection cn= mysql.Conectar();
+        ///ingresamos la consulta
+        ///FECHA ACTUAL
+        java.util.Date date = new java.util.Date();
+        java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("yyyy-MM-dd");
+        String fecha = sdf.format(date);
+        
+        String importe= "";
+        importe= txtImporte.getText();
+        System.out.println(importe);
+            //  Statement st= cn.createStatement();
+            //ResultSet rs= st.executeQuery(sSQL);
+            
+            //while (rs.next())
+           // {
+           if (importe == " "){
+                JOptionPane.showMessageDialog(null, "Ingrese Importe");
+               
+           }
+           else {
+                registro[0]= importe;
+                registro[1]=calcularIVA();
+                registro[2]=fecha;
+                
+                modelo.addRow(registro);
+           } 
+            // }
+            tblCuotasVisual.setModel(modelo);
+                        
+     
+        
+    
+    
+    }
+    
     
     /////////////////////////////////////////////////////////////////////////////
     //////////////CLASES PARA HABILITAR E INHABILITAR LOS MENUS//////////////////
@@ -828,7 +1082,9 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     txtImporte.setEnabled(true);
     jlbImporte.setEnabled(true);
     rbIVA21.setEnabled(true);
+    rbIVA21.setSelected(false);
     rbIVA10.setEnabled(true);
+    rbIVA10.setSelected(false);
     txtCuotas.setEnabled(true);
     jlbCuotas.setEnabled(true);
     txtComprador.setEnabled(true);
@@ -854,7 +1110,11 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     jlbCantidadDeCopias.setEnabled(true);
     btnConfirmar.setEnabled(true);
     btnCancelar.setEnabled(true);
+    btnCalcular.setEnabled(true);
+    jlbCuotas.setEnabled(true);
     txtIdProveedor.requestFocus();///posiciona el cursor
+    
+    
     
      //vacia los campos en ""
     txtIdProveedor.setText("");   
@@ -869,11 +1129,14 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     txtObsProveedor.setText("");
     txtObsComprador.setText("");
     txtCantCopias.setText("");
+    eliminarTablaCuotas();
     
     this.jcomProveedor.removeAllItems();
     this.jcomComprador.removeAllItems();
     this.jcomMotivo.removeAllItems();
     this.jcomSector.removeAllItems();
+    
+
     
     jcomClaseProveedorMenu();
     jcomClaseCompradorMenu();
@@ -915,6 +1178,8 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     jlbCantidadDeCopias.setEnabled(false);
     btnConfirmar.setEnabled(false);
     btnCancelar.setEnabled(false);
+    btnCalcular.setEnabled(false);
+    eliminarTablaCuotas();
     
     //vacia los campos en ""
     txtIdProveedor.setText("");   
@@ -929,8 +1194,17 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     txtObsProveedor.setText("");
     txtObsComprador.setText("");
     txtCantCopias.setText("");
+    jlbCuotas.setEnabled(false);
     }
     
+   public void eliminarTablaCuotas(){
+        DefaultTableModel tb = (DefaultTableModel) tblCuotasVisual.getModel();
+        int a = tblCuotasVisual.getRowCount()-1;
+        for (int i = a; i >= 0; i--) {           
+        tb.removeRow(tb.getRowCount()-1);
+        } 
+        
+    }
     /**
      * @param args the command line arguments
      */
@@ -969,11 +1243,12 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCalcular;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;
+    private javax.swing.JButton btnConsultasPlan;
     private javax.swing.JButton btnNuevoPlan;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> jcomComprador;
@@ -982,8 +1257,10 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jcomSector;
     private javax.swing.JLabel jlbCantidadDeCopias;
     private javax.swing.JLabel jlbComprador;
+    private javax.swing.JLabel jlbCuota;
     private javax.swing.JLabel jlbCuotas;
     private javax.swing.JLabel jlbDescuento;
+    private javax.swing.JLabel jlbFechaDebito;
     private javax.swing.JLabel jlbImporte;
     private javax.swing.JLabel jlbMotivoSNC;
     private javax.swing.JLabel jlbObsComprador;
@@ -998,6 +1275,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     private javax.swing.JTextField txtCuotas;
     private javax.swing.JTextField txtDescDescuento;
     private javax.swing.JTextField txtDescuento;
+    private javax.swing.JTextField txtFechaDebito;
     private javax.swing.JTextField txtIdProveedor;
     private javax.swing.JTextField txtImporte;
     private javax.swing.JTextField txtMotivoSNC;
