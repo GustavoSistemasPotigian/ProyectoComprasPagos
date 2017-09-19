@@ -53,11 +53,12 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="66" pref="66" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="btnPlanFijo" max="32767" attributes="0"/>
                       <Component id="btnSalir" min="-2" pref="105" max="-2" attributes="0"/>
-                      <Component id="btnUsuarios" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnUsuarios" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                   <Component id="btnArticulos" min="-2" max="-2" attributes="0"/>
@@ -68,7 +69,9 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                  <Component id="btnPlanFijo" min="-2" pref="51" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnArticulos" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
                       <Component id="btnUsuarios" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
@@ -106,6 +109,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnArticulosActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnPlanFijo">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Plan Fijo"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPlanFijoActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

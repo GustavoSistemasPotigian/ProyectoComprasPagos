@@ -31,6 +31,7 @@ public class VentanaPrincipalPanel extends javax.swing.JFrame {
         btnUsuarios = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         btnArticulos = new javax.swing.JButton();
+        btnPlanFijo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("POTIGIAN Administrador Compras-Pagos");
@@ -59,15 +60,23 @@ public class VentanaPrincipalPanel extends javax.swing.JFrame {
             }
         });
 
+        btnPlanFijo.setText("Plan Fijo");
+        btnPlanFijo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPlanFijoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(66, 66, 66)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnPlanFijo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnUsuarios))
+                    .addComponent(btnUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(32, 32, 32)
                 .addComponent(btnArticulos)
                 .addContainerGap(272, Short.MAX_VALUE))
@@ -75,7 +84,9 @@ public class VentanaPrincipalPanel extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(105, 105, 105)
+                .addGap(28, 28, 28)
+                .addComponent(btnPlanFijo, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnArticulos, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -119,6 +130,11 @@ public class VentanaPrincipalPanel extends javax.swing.JFrame {
        
     }//GEN-LAST:event_btnArticulosActionPerformed
 
+    private void btnPlanFijoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlanFijoActionPerformed
+       PlanDeDescuentoFijo ventanaImporteFijo= new PlanDeDescuentoFijo();
+       ventanaImporteFijo.setVisible(true);
+    }//GEN-LAST:event_btnPlanFijoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -156,6 +172,7 @@ public class VentanaPrincipalPanel extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnArticulos;
+    private javax.swing.JButton btnPlanFijo;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnUsuarios;
     private javax.swing.JPanel jPanel1;
