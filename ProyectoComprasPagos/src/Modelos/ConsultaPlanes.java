@@ -6,6 +6,7 @@
 package Modelos;
 
 import BaseDeDatos.ConexionMySQL;
+import Reportes.GenerarReportes;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,6 +38,8 @@ public class ConsultaPlanes extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        Imprimir = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtBuscarPlan = new javax.swing.JTextField();
@@ -44,6 +47,21 @@ public class ConsultaPlanes extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblConsultaPlanes = new javax.swing.JTable();
         btnSalirConsulta = new javax.swing.JButton();
+
+        jPopupMenu1.setComponentPopupMenu(jPopupMenu1);
+        jPopupMenu1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        Imprimir.setText("Imprimir");
+        Imprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ImprimirActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(Imprimir);
+        Imprimir.getAccessibleContext().setAccessibleName("Imprimir");
+
+        jPopupMenu1.getAccessibleContext().setAccessibleName("");
+        jPopupMenu1.getAccessibleContext().setAccessibleParent(jPopupMenu1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,6 +93,7 @@ public class ConsultaPlanes extends javax.swing.JFrame {
 
             }
         ));
+        tblConsultaPlanes.setComponentPopupMenu(jPopupMenu1);
         jScrollPane1.setViewportView(tblConsultaPlanes);
 
         btnSalirConsulta.setText("Salir");
@@ -149,6 +168,33 @@ public class ConsultaPlanes extends javax.swing.JFrame {
     private void btnSalirConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirConsultaActionPerformed
        ConsultaPlanes.this.dispose();
     }//GEN-LAST:event_btnSalirConsultaActionPerformed
+
+    private void ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImprimirActionPerformed
+        int filasel;
+        String idPlan;
+        GenerarReportes reporte= new GenerarReportes(); 
+        try
+           {
+               filasel=tblConsultaPlanes.getSelectedRow();
+               
+               if (filasel==-1)
+               {
+                   JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna fila");
+               }
+               else
+               {
+                   //accion="Modificar";
+                   modelo= (DefaultTableModel) tblConsultaPlanes.getModel();
+                   idPlan= (String) modelo.getValueAt(filasel, 0);
+                   //habilitar();
+                   reporte.reportePlanFijo(idPlan);
+               }     
+           }
+        catch (Exception e)
+                {
+                    
+                }
+    }//GEN-LAST:event_ImprimirActionPerformed
 
     //carga tabla Articulos
     void CargarTablaPlanes(String valor){
@@ -249,10 +295,12 @@ public class ConsultaPlanes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem Imprimir;
     private javax.swing.JButton btnBuscarPlan;
     private javax.swing.JButton btnSalirConsulta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblConsultaPlanes;
     private javax.swing.JTextField txtBuscarPlan;
