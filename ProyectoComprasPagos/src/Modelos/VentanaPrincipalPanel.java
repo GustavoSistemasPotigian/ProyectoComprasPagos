@@ -115,24 +115,24 @@ public class VentanaPrincipalPanel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuariosActionPerformed
-        Usuarios ventanaUsuarios= new Usuarios();
+        Usuarios ventanaUsuarios = new Usuarios();
         ventanaUsuarios.setVisible(true);
     }//GEN-LAST:event_btnUsuariosActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-       VentanaPrincipalPanel.this.dispose();
+        VentanaPrincipalPanel.this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArticulosActionPerformed
-       /// creamos la ventana para articulos
-       Articulos ventanaArticulo= new Articulos();
-       ventanaArticulo.setVisible(true);
-       
+        /// creamos la ventana para articulos
+        Articulos ventanaArticulo = new Articulos();
+        ventanaArticulo.setVisible(true);
+
     }//GEN-LAST:event_btnArticulosActionPerformed
 
     private void btnPlanFijoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlanFijoActionPerformed
-       PlanDeDescuentoFijo ventanaImporteFijo= new PlanDeDescuentoFijo();
-       ventanaImporteFijo.setVisible(true);
+        PlanDeDescuentoFijo ventanaImporteFijo = new PlanDeDescuentoFijo();
+        ventanaImporteFijo.setVisible(true);
     }//GEN-LAST:event_btnPlanFijoActionPerformed
 
     /**
