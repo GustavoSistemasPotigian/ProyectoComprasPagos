@@ -11,31 +11,36 @@ import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
+import net.*;
 
 /**
  *
  * @author gustavo
  */
 public class GenerarReportes {
-    ConexionMySQL mysql= new ConexionMySQL();
-            Connection cn= mysql.Conectar();
-    public void reportePlanFijo(int idPlanFijo)
-    {
+           
             
+    public void reportePlanFijo(int idPlanFijo){
+   
         
           try {
+            ConexionMySQL mysql= new ConexionMySQL();
+            Connection cn= mysql.Conectar();
             System.out.println("entra5");
-            JasperReport reporte= (JasperReport) JRLoader.loadObject("ReportePlanFijo.jasper");
-            Map parametro= new HashMap();
-            parametro.put("idPlanFijo", idPlanFijo);
+            JasperReport jReporte= (JasperReport) JRLoader.loadObject("C:\\Users\\gustavo\\Documents\\NetBeansProjects\\ProyectoComprasPagos\\ProyectoComprasPagos\\src\\Reportes\\ReportePlanFijo.jasper");
+             Map parametro= new HashMap();
+             //parametro.put("idPlanFijo", idPlanFijo);
+             parametro.put("idPlanFijo", idPlanFijo);
+           
             System.out.println("entra6");
-            
-            JasperPrint j= JasperFillManager.fillReport(reporte, parametro,cn);
+       
+            JasperPrint j= JasperFillManager.fillReport(jReporte,parametro,cn);
              System.out.println("entra7");
             JasperViewer jv= new JasperViewer(j, false);
              System.out.println("entra8");
