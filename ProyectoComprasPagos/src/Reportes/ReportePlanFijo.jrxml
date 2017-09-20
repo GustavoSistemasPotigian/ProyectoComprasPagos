@@ -2,14 +2,14 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e596ea71-a30e-42aa-ab43-cc3389ff0312">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="103"/>
 	<parameter name="idPlanFijo" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
+	pl.`idPlan_descuento` AS Plan_Nro,
      concat(usr.apellido,' ',usr.nombre) AS Comprador,
-     pl.`idPlan_descuento` AS Plan_Nro,
      pl.`tipo_plan` AS Tipo,
      pr.`razon_social` AS Proveedor,
      pl.`fechaActual` AS Fecha,
@@ -30,8 +30,8 @@ FROM
 WHERE
      pl.idPlan_descuento = $P{idPlanFijo}]]>
 	</queryString>
-	<field name="Comprador" class="java.lang.String"/>
 	<field name="Plan_Nro" class="java.lang.Integer"/>
+	<field name="Comprador" class="java.lang.String"/>
 	<field name="Tipo" class="java.lang.String"/>
 	<field name="Proveedor" class="java.lang.String"/>
 	<field name="Fecha" class="java.sql.Date"/>
@@ -55,15 +55,15 @@ WHERE
 	<title>
 		<band height="79" splitType="Stretch">
 			<staticText>
-				<reportElement x="27" y="31" width="294" height="35" uuid="687e2bfc-1e58-4d4d-9c21-8106bc52c12a"/>
+				<reportElement x="226" y="24" width="294" height="35" uuid="687e2bfc-1e58-4d4d-9c21-8106bc52c12a"/>
 				<textElement>
 					<font size="26" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[PLAN IMPORTE FIJO]]></text>
 			</staticText>
 			<image>
-				<reportElement x="331" y="14" width="197" height="65" uuid="90b78367-5e27-4d97-9eb3-2d1def44e0c1"/>
-				<imageExpression><![CDATA["C:\\Users\\usuario\\Downloads\\logo.png"]]></imageExpression>
+				<reportElement x="27" y="24" width="160" height="39" uuid="ccb3fb93-91a5-4231-96d9-e1a746799f0f"/>
+				<imageExpression><![CDATA["C:\\Users\\gustavo\\Documents\\NetBeansProjects\\ProyectoComprasPagos\\ProyectoComprasPagos\\src\\Imagenes\\logo.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>
