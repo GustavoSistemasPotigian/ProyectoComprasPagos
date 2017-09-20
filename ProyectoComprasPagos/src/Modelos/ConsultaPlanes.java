@@ -188,10 +188,12 @@ public class ConsultaPlanes extends javax.swing.JFrame {
                {
                    //accion="Modificar";
                     System.out.println("entra4");
-                   idPlanFijo= (Integer )modelo.getValueAt(filasel, 0);
+                   idString= (String)modelo.getValueAt(filasel, 0);
                    System.out.println(idString);
                   
                    //habilitar();
+                   idPlanFijo= Integer.parseInt(idString);
+                   System.out.println(idPlanFijo);
                    repFijo.reportePlanFijo(idPlanFijo);
                }     
            }
