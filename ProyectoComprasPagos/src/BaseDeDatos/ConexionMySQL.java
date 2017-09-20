@@ -27,7 +27,7 @@ public ConexionMySQL()
             
             //enlace hacia la base de datos
             link= DriverManager.getConnection(this.URL, this.user,this.pass);
-                        
+            System.out.println("conectado correctamente");
         }
         catch (Exception e)
         {
