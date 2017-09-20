@@ -58,7 +58,6 @@ public class ConsultaPlanes extends javax.swing.JFrame {
             }
         });
         jPopupMenu1.add(Imprimir);
-        Imprimir.getAccessibleContext().setAccessibleName("Imprimir");
 
         jPopupMenu1.getAccessibleContext().setAccessibleName("");
         jPopupMenu1.getAccessibleContext().setAccessibleParent(jPopupMenu1);
@@ -171,23 +170,29 @@ public class ConsultaPlanes extends javax.swing.JFrame {
 
     private void ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImprimirActionPerformed
         int filasel;
-        String idPlan;
-        GenerarReportes reporte= new GenerarReportes(); 
+        int idPlanFijo;
+        String idString=" ";
+        GenerarReportes repFijo= new GenerarReportes(); 
+        modelo= (DefaultTableModel) tblConsultaPlanes.getModel();
         try
            {
+               System.out.println("entra1");
                filasel=tblConsultaPlanes.getSelectedRow();
-               
+               System.out.println("entra2");
                if (filasel==-1)
                {
+                   System.out.println("entra3");
                    JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna fila");
                }
                else
                {
                    //accion="Modificar";
-                   modelo= (DefaultTableModel) tblConsultaPlanes.getModel();
-                   idPlan= (String) modelo.getValueAt(filasel, 0);
+                    System.out.println("entra4");
+                   idPlanFijo= (Integer )modelo.getValueAt(filasel, 0);
+                   System.out.println(idString);
+                  
                    //habilitar();
-                   reporte.reportePlanFijo(idPlan);
+                   repFijo.reportePlanFijo(idPlanFijo);
                }     
            }
         catch (Exception e)
@@ -264,6 +269,9 @@ public class ConsultaPlanes extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
+         ConexionMySQL mysql= new ConexionMySQL();
+         Connection cn= mysql.Conectar();
+        
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -290,6 +298,8 @@ public class ConsultaPlanes extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ConsultaPlanes().setVisible(true);
+                
+                
             }
         });
     }
