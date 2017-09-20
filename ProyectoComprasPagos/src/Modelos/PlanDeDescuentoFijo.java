@@ -66,8 +66,6 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
         jcomComprador = new javax.swing.JComboBox<>();
         jcomSector = new javax.swing.JComboBox<>();
         jcomMotivo = new javax.swing.JComboBox<>();
-        jlbFechaDebito = new javax.swing.JLabel();
-        txtFechaDebito = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCuotasVisual = new javax.swing.JTable();
         btnConfirmar = new javax.swing.JButton();
@@ -199,14 +197,6 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
             }
         });
 
-        jlbFechaDebito.setText("Fecha Debito: ");
-
-        txtFechaDebito.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFechaDebitoActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -242,15 +232,11 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
                                         .addComponent(jcomComprador, 0, 299, Short.MAX_VALUE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(txtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jlbFechaDebito)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtFechaDebito, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(79, 79, 79)
                                         .addComponent(rbIVA21)
-                                        .addGap(10, 10, 10)
+                                        .addGap(18, 18, 18)
                                         .addComponent(rbIVA10)
-                                        .addGap(26, 26, 26))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(txtSector, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
@@ -302,9 +288,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(rbIVA21)
-                        .addComponent(rbIVA10)
-                        .addComponent(jlbFechaDebito)
-                        .addComponent(txtFechaDebito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(rbIVA10)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlbCuotas)
@@ -411,18 +395,19 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(btnConfirmar)
-                                .addGap(18, 18, 18)
-                                .addComponent(jlbCantidadDeCopias)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtCantCopias, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jlbCuota)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnCalcular)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(btnConfirmar)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jlbCantidadDeCopias)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtCantCopias, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jlbCuota)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnCalcular)))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -933,10 +918,6 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
         cargarTablaCuotas();
     }//GEN-LAST:event_btnCalcularActionPerformed
 
-    private void txtFechaDebitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaDebitoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFechaDebitoActionPerformed
-
     private void btnConsultasPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultasPlanActionPerformed
         ConsultaPlanes ventanaConsulta= new ConsultaPlanes();
         ventanaConsulta.setVisible(true);
@@ -1260,7 +1241,6 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     private javax.swing.JLabel jlbCuota;
     private javax.swing.JLabel jlbCuotas;
     private javax.swing.JLabel jlbDescuento;
-    private javax.swing.JLabel jlbFechaDebito;
     private javax.swing.JLabel jlbImporte;
     private javax.swing.JLabel jlbMotivoSNC;
     private javax.swing.JLabel jlbObsComprador;
@@ -1275,7 +1255,6 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     private javax.swing.JTextField txtCuotas;
     private javax.swing.JTextField txtDescDescuento;
     private javax.swing.JTextField txtDescuento;
-    private javax.swing.JTextField txtFechaDebito;
     private javax.swing.JTextField txtIdProveedor;
     private javax.swing.JTextField txtImporte;
     private javax.swing.JTextField txtMotivoSNC;
