@@ -970,6 +970,8 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
                // CargarTablaCuotas("");
                 habilitar();//habilita los campos para la carga de datos
                 inhabilitar();
+                ConsultaPlanes ventanaConsulta= new ConsultaPlanes();
+                ventanaConsulta.setVisible(true);
             }
             
             
