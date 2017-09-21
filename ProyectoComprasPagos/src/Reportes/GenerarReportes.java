@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -22,24 +23,31 @@ import net.sf.jasperreports.view.JasperViewer;
  * @author gustavo
  */
 public class GenerarReportes {
-    ConexionMySQL mysql= new ConexionMySQL();
+              ConexionMySQL mysql= new ConexionMySQL();
             Connection cn= mysql.Conectar();
-    public void reportePlanFijo(int idPlanFijo)
-    {
             
+    public void reportePlanFijo(int idplanfijo)
+    {
+           // System.out.println("da: "+ cn);
         
           try {
             System.out.println("entra5");
-            JasperReport reporte= (JasperReport) JRLoader.loadObject("ReportePlanFijo.jasper");
-            Map parametro= new HashMap();
-            parametro.put("idPlanFijo", idPlanFijo);
+           // JasperReport reporte= (JasperReport) JRLoader.loadObject("C:\\Users\\usuario\\Documents\\NetBeansProjects\\ProyectoComprasPagos\\ProyectoComprasPagos\\ProyectoComprasPagos\\src\\Reportes\\ReportePlanFijo.jasper");
+         //  String direc="C:\\Users\\usuario\\Documents\\NetBeansProjects\\ProyectoComprasPagos\\ProyectoComprasPagos\\ProyectoComprasPagos\\src\\Reportes\\ReportePlanFijo.jasper"; 
+           
+           JasperReport reportes = JasperCompileManager.compileReport("ReportePlanFijo.jrxml");
+           
+           
+           Map parametro= new HashMap();
+            parametro.clear();
+            parametro.put("idplanfijo", idplanfijo);
             System.out.println("entra6");
-            
-            JasperPrint j= JasperFillManager.fillReport(reporte, parametro,cn);
+            System.out.println(parametro.get("idplanfijo"));
+            JasperPrint j = JasperFillManager.fillReport(reportes, parametro, this.cn);
              System.out.println("entra7");
             JasperViewer jv= new JasperViewer(j, false);
              System.out.println("entra8");
-            jv.setTitle("Reporte Importe Fijo");
+            jv.setTitle("Reporte");
              System.out.println("entra9");
             jv.setVisible(true);
            
