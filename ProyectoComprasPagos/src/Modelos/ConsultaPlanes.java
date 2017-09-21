@@ -170,8 +170,8 @@ public class ConsultaPlanes extends javax.swing.JFrame {
 
     private void ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImprimirActionPerformed
         int filasel;
-        int idPlanFijo;
-        String idString=" ";
+        int idplanfijo=0;
+        String idString="";
         GenerarReportes repFijo= new GenerarReportes(); 
         modelo= (DefaultTableModel) tblConsultaPlanes.getModel();
         try
@@ -187,14 +187,14 @@ public class ConsultaPlanes extends javax.swing.JFrame {
                else
                {
                    //accion="Modificar";
-                    System.out.println("entra4");
+                   System.out.println("entra4");
                    idString= (String)modelo.getValueAt(filasel, 0);
                    System.out.println(idString);
                   
                    //habilitar();
-                   idPlanFijo= Integer.parseInt(idString);
-                   System.out.println(idPlanFijo);
-                   repFijo.reportePlanFijo(idPlanFijo);
+                   idplanfijo= Integer.valueOf(idString);
+                   System.out.println(idplanfijo);
+                   repFijo.reportePlanFijo(idplanfijo);
                }     
            }
         catch (Exception e)
@@ -231,7 +231,7 @@ public class ConsultaPlanes extends javax.swing.JFrame {
              "CONCAT(pl.idPlan_descuento, ' ',pl.tipo_plan, ' ', importe, ' ', pr.razon_social, ' ', pl.fechaActual, ' ', "+
              "sec.descripcion, ' ',mot.descripcion, ' ', pl.descuento,' ' ,ti.descripcion_iva, ' ', "+
              "concat (usr.apellido, ' ' , usr.nombre)) "+ 
-             "LIKE '%"+ valor +"%'"; 
+             "LIKE '%"+ valor +"%' order by Plan_Nro" ; 
         
         try 
         {
