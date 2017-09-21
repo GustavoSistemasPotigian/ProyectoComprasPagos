@@ -5,6 +5,10 @@
  */
 package proyectocompraspagos;
 
+import BaseDeDatos.*;
+import java.sql.*;
+import Modelos.VentanaPrincipalPanel;
+
 /**
  *
  * @author usuario
@@ -15,9 +19,14 @@ public class ProyectoComprasPagos {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-     
         
-// TODO code application logic here
+        
+            ConexionMySQL mysql= new ConexionMySQL();
+            Connection cn= mysql.Conectar();
+        
+            VentanaPrincipalPanel ventana= new VentanaPrincipalPanel();
+            ventana.setVisible(true);
+           
 
 
     }
