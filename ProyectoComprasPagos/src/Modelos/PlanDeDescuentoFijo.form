@@ -38,10 +38,6 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                       <Component id="btnConfirmar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jlbCantidadDeCopias" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="txtCantCopias" min="-2" pref="34" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="btnCancelar" min="-2" pref="96" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -63,8 +59,6 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jlbCantidadDeCopias" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtCantCopias" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnCancelar" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                       <Component id="btnSalir" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                   </Group>
@@ -596,16 +590,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelarActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JTextField" name="txtCantCopias">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCantCopiasActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jlbCantidadDeCopias">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Cantidad de Copias"/>
-      </Properties>
     </Component>
   </SubComponents>
 </Form>

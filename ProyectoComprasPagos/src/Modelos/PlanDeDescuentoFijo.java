@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -78,8 +79,6 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
         btnConfirmar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        txtCantCopias = new javax.swing.JTextField();
-        jlbCantidadDeCopias = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -320,7 +319,6 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
                                             .addComponent(txtDescDescuento)
                                             .addComponent(jcomMotivo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
                         .addComponent(btnNuevoPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnConsultasPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -436,14 +434,6 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
             }
         });
 
-        txtCantCopias.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCantCopiasActionPerformed(evt);
-            }
-        });
-
-        jlbCantidadDeCopias.setText("Cantidad de Copias");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -460,10 +450,6 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addComponent(btnConfirmar)
-                        .addGap(18, 18, 18)
-                        .addComponent(jlbCantidadDeCopias)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtCantCopias, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -481,8 +467,6 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jlbCantidadDeCopias)
-                        .addComponent(txtCantCopias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -606,10 +590,6 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     private void txtObsProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtObsProveedorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtObsProveedorActionPerformed
-
-    private void txtCantCopiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantCopiasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCantCopiasActionPerformed
 
     private void rbIVA21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbIVA21ActionPerformed
         ///CONDICIONAL PARA QUE BLOQUEE EL BOTÓN DE IVA10%
@@ -853,22 +833,25 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
             //monto= txtImporte.getText();
             resultado= cuota;
             resultado= (resultado*0.21);
-            monto=Double.toString(resultado);
+            monto=String.format("%.2f", resultado);
+            
         }
         else {
             if (getIVA()=="3"){
                 //monto= txtImporte.getText();
                 resultado= cuota;
                 resultado= (resultado*0.105);
-                monto=Double.toString(resultado);
+                monto=String.format("%.2f", resultado);;
+                
             }
             else{
                 if (getIVA()=="1"){
                      //monto= txtImporte.getText();
                      
                      resultado= cuota;
-                     resultado= (resultado*0.0);
-                     monto=Double.toString(resultado);
+                     resultado=(resultado*0.0);
+                     monto=String.format("%.2f", resultado);
+                     
                 
                 }
                }
@@ -893,7 +876,8 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
         
         ///STRING A UTILIZAR
         String idProve="", tipoDePlan="",fechaActual="",importe="0", cuotas="0", idComprador="",idSector="";
-        String motivoSNC="",descuento="0", descDescripcion="", obsComprador="", obsProveedor="",tipoIVA="0", cantCopias="0";
+        String motivoSNC="",descuento="0", descDescripcion="", obsComprador="", obsProveedor="",tipoIVA="0", idArt="0";
+      // cantCopias="0"
         String sSQL="";
         String mensaje;
        ///campos a cargar
@@ -914,7 +898,8 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
         obsProveedor= txtObsProveedor.getText();
         obsComprador=txtObsComprador.getText();
         tipoIVA=getIVA();
-        cantCopias=txtCantCopias.getText ();
+        idArt=txtArticulo.getText();
+        //cantCopias=txtCantCopias.getText ();
         
         
         ///creamos la consulta sql
@@ -922,7 +907,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
         {
             sSQL="INSERT INTO plan_descuento (Proveedor_idproveedor, tipo_plan,fechaActual, importe,"
                     + " cuotas, Usuario_idusuario,Sector_idsector,Motivo_SNC_idMotivo_SNC, descuento,"
-                    + "descuento_descripcion,obs_Proveedor, obs_Comprador, tipo_IVA_idtipo_IVA,cant_copias ) "+
+                    + "descuento_descripcion,obs_Proveedor, obs_Comprador, tipo_IVA_idtipo_IVA, Articulo_idArticulo) "+
                 "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
            mensaje="Operación Satisfactoria";
         }
@@ -960,12 +945,13 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
             pst.setString(11,obsProveedor);
             pst.setString(12,obsComprador);
             pst.setString(13,tipoIVA);
-            pst.setString(14, cantCopias);
+            pst.setString(14, idArt);
             int n = pst.executeUpdate();
-            
+            guardarCuotas(cn);
             if (n>0)
             {    
                 mensaje="Operación Satisfactoria";
+                
                 JOptionPane.showMessageDialog(null, mensaje);
                // CargarTablaCuotas("");
                 habilitar();//habilita los campos para la carga de datos
@@ -983,13 +969,56 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
+    private void guardarCuotas(Connection cn)
+    {
+        String ultimoId="";
+        String sSQLid="", sSQL="";
+        
+        ///FECHA ACTUAL
+        java.util.Date date = new java.util.Date();
+        java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("yyyy-MM-dd");
+        String fecha = sdf.format(date);
+        ////Guardamos consulta para ultimo id.
+        sSQLid="SELECT LAST_INSERT_ID(idPlan_Descuento) AS ProximoIdAInsertar FROM plan_descuento ORDER BY idPlan_Descuento DESC LIMIT 1";
+        
+        try 
+        {
+        PreparedStatement pst= cn.prepareStatement(sSQLid);
+        ResultSet resultado= pst.executeQuery();
+        while (resultado.next()) { //Es mas correcto poner el next en el while, te hace lo mismo que tenias en tu antiguo codigo pero en menos lineas y mas limpio
+              ultimoId = resultado.getString("ProximoIdAInsertar");
+              }
+        System.out.println(ultimoId);
+        ///obtenemos cantidad de valores en la jtable
+        for (int i=0; i< tblCuotasVisual.getRowCount(); i++)
+        {
+            PreparedStatement pst2= cn.prepareStatement("INSERT INTO cuota (nro_cuota, importe, IVA, fecha, plan_descuento_idPlan_Descuento) VALUES (?,?,?,?,?) ");
+            pst2.setString(1, (String.valueOf((i+1))));
+            pst2.setString(2, tblCuotasVisual.getValueAt(i, 0).toString());
+            pst2.setString(3, tblCuotasVisual.getValueAt(i, 1).toString());
+            pst2.setString(4, tblCuotasVisual.getValueAt(i, 2).toString());
+            pst2.setString(5, ultimoId);
+            pst2.executeUpdate();
+        }
+        
+        
+        }
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        
+        }
+    
+    
+    }
     private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
         cargarTablaCuotas();
     }//GEN-LAST:event_btnCalcularActionPerformed
 
     private void btnConsultasPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultasPlanActionPerformed
         ConsultaPlanes ventanaConsulta= new ConsultaPlanes();
+        ventanaConsulta.setExtendedState(JFrame.MAXIMIZED_BOTH);
         ventanaConsulta.setVisible(true);
+        
     }//GEN-LAST:event_btnConsultasPlanActionPerformed
 
     private void jcomArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcomArticuloActionPerformed
@@ -1214,8 +1243,9 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
         String importe= "";
         importe= txtImporte.getText();
         cantCuota=Integer.parseInt(txtCuotas.getText());
-        cuota= ((Double.parseDouble(importe))/cantCuota);
-        importe= String.valueOf(cuota);
+        cuota= (((Double.parseDouble(importe))/cantCuota));
+        importe=String.format("%.2f", cuota);
+        
         System.out.println(importe);
             //  Statement st= cn.createStatement();
             //ResultSet rs= st.executeQuery(sSQL);
@@ -1282,8 +1312,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     jlbObsProveedor.setEnabled(true);
     txtObsComprador.setEnabled(true);
     jlbObsComprador.setEnabled(true);
-    txtCantCopias.setEnabled(true);
-    jlbCantidadDeCopias.setEnabled(true);
+    
     btnConfirmar.setEnabled(true);
     btnCancelar.setEnabled(true);
     btnCalcular.setEnabled(true);
@@ -1312,7 +1341,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     txtDescDescuento.setText("");
     txtObsProveedor.setText("");
     txtObsComprador.setText("");
-    txtCantCopias.setText("");
+  
     eliminarTablaCuotas();
     
     this.jcomProveedor.removeAllItems();
@@ -1358,8 +1387,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     jlbObsProveedor.setEnabled(false);
     txtObsComprador.setEnabled(false);
     jlbObsComprador.setEnabled(false);
-    txtCantCopias.setEnabled(false);
-    jlbCantidadDeCopias.setEnabled(false);
+
     btnConfirmar.setEnabled(false);
     btnCancelar.setEnabled(false);
     btnCalcular.setEnabled(false);
@@ -1385,7 +1413,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     txtDescDescuento.setText("");
     txtObsProveedor.setText("");
     txtObsComprador.setText("");
-    txtCantCopias.setText("");
+   
     jlbCuotas.setEnabled(false);
     }
     
@@ -1451,7 +1479,6 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jcomProveedor;
     private javax.swing.JComboBox<String> jcomSector;
     private javax.swing.JLabel jlbArticulo;
-    private javax.swing.JLabel jlbCantidadDeCopias;
     private javax.swing.JLabel jlbComprador;
     private javax.swing.JLabel jlbCuota;
     private javax.swing.JLabel jlbCuotas;
@@ -1466,7 +1493,6 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbIVA21;
     private javax.swing.JTable tblCuotasVisual;
     private javax.swing.JTextField txtArticulo;
-    private javax.swing.JTextField txtCantCopias;
     private javax.swing.JTextField txtComprador;
     private javax.swing.JTextField txtCuotas;
     private javax.swing.JTextField txtDescDescuento;
