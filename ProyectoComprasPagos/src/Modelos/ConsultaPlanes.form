@@ -24,7 +24,7 @@
       <SubComponents>
         <MenuItem class="javax.swing.JMenuItem" name="Imprimir">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Imprimir"/>
+            <Property name="text" type="java.lang.String" value="Ver Comprobante"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ImprimirActionPerformed"/>

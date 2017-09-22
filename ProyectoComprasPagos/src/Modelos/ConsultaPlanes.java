@@ -51,7 +51,7 @@ public class ConsultaPlanes extends javax.swing.JFrame {
         jPopupMenu1.setComponentPopupMenu(jPopupMenu1);
         jPopupMenu1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        Imprimir.setText("Imprimir");
+        Imprimir.setText("Ver Comprobante");
         Imprimir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ImprimirActionPerformed(evt);
@@ -208,8 +208,8 @@ public class ConsultaPlanes extends javax.swing.JFrame {
         String sSQL="";
        
         ///configuramos la tabla.
-        String [] titulos= {"Nro de Plan","Tipo","Proveedor","Importe","Fecha","IVA","Sector","MotivoSNC","Descuento","Desc.Descuento","obs.Comprador","obs.Proveedor", "Comprador" };
-        String [] registro= new String[13];
+        String [] titulos= {"Nro de Plan","Tipo","Proveedor","Importe","Fecha","IVA","Sector","MotivoSNC","Descuento","Desc.Descuento", "Comprador" };
+        String [] registro= new String[11];
         modelo = new DefaultTableModel(null,titulos);
         ///realizamos la conexion con la bdd.
         ConexionMySQL mysql= new ConexionMySQL();
@@ -250,9 +250,9 @@ public class ConsultaPlanes extends javax.swing.JFrame {
                 registro[7]=rs.getString("MotivoSNC");
                 registro[8]=rs.getString("Descuento");
                 registro[9]=rs.getString("pl.descuento_descripcion");
-                registro[10]=rs.getString("pl.obs_comprador");
-                registro[11]=rs.getString("pl.obs_proveedor");
-                registro[12]=rs.getString("Comprador");
+                //registro[10]=rs.getString("pl.obs_comprador");
+                //registro[11]=rs.getString("pl.obs_proveedor");
+                registro[10]=rs.getString("Comprador");
                 modelo.addRow(registro);
               }
             tblConsultaPlanes.setModel(modelo);
