@@ -26,6 +26,7 @@ public class ConsultaPlanes extends javax.swing.JFrame {
     DefaultTableModel modelo;
     public ConsultaPlanes() {
         initComponents();
+        
         CargarTablaPlanes("");
     }
 
@@ -132,7 +133,7 @@ public class ConsultaPlanes extends javax.swing.JFrame {
                         .addComponent(txtBuscarPlan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnBuscarPlan)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1)
                 .addGap(36, 36, 36))
         );
 
