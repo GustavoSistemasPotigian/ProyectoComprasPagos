@@ -32,10 +32,11 @@ public class GenerarReportes {
         
           try {
             System.out.println("entra5");
-           // JasperReport reporte= (JasperReport) JRLoader.loadObject("C:\\Users\\usuario\\Documents\\NetBeansProjects\\ProyectoComprasPagos\\ProyectoComprasPagos\\ProyectoComprasPagos\\src\\Reportes\\ReportePlanFijo.jasper");
-         //  String direc="C:\\Users\\usuario\\Documents\\NetBeansProjects\\ProyectoComprasPagos\\ProyectoComprasPagos\\ProyectoComprasPagos\\src\\Reportes\\ReportePlanFijo.jasper"; 
-           
-           JasperReport reportes = JasperCompileManager.compileReport("ReportePlanFijo.jrxml");
+           // 
+         //  String direc="ReportePlanFijo.jasper"; 
+         //  JasperReport reportes= (JasperReport) JRLoader.loadObject (getClass().getResource("\Reportes\ReportePlanFijo.jasper"));
+         //  JasperReport jasper= (JasperReport) JRLoader.loadObject(getClass().getResource("ReportePlanFijo.jasper"));
+             JasperReport reportes = JasperCompileManager.compileReport("ReportePlanFijo.jrxml");
            
            
            Map parametro= new HashMap();
