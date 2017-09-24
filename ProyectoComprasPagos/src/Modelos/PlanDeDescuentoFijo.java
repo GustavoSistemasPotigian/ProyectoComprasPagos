@@ -834,15 +834,15 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
             resultado= cuota;
             resultado= (resultado*0.21);
             monto=String.format("%.2f", resultado);
-            
+           
         }
         else {
             if (getIVA()=="3"){
                 //monto= txtImporte.getText();
                 resultado= cuota;
                 resultado= (resultado*0.105);
-                monto=String.format("%.2f", resultado);;
-                
+                monto=String.format("%.2f", resultado);
+                   
             }
             else{
                 if (getIVA()=="1"){
@@ -894,11 +894,15 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
                descDescripcion=txtDescDescuento.getText();
                 }
         
-        
         obsProveedor= txtObsProveedor.getText();
         obsComprador=txtObsComprador.getText();
         tipoIVA=getIVA();
-        idArt=txtArticulo.getText();
+        ///verifico que no se envie un articulo no elegido
+        if (this.jCheckArticulo.isSelected()==true){
+             idArt=txtArticulo.getText();}
+        else {
+            idArt=null;
+        }
         //cantCopias=txtCantCopias.getText ();
         
         
@@ -974,10 +978,8 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
         String ultimoId="";
         String sSQLid="", sSQL="";
         
-        ///FECHA ACTUAL
-        java.util.Date date = new java.util.Date();
-        java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("yyyy-MM-dd");
-        String fecha = sdf.format(date);
+        
+        
         ////Guardamos consulta para ultimo id.
         sSQLid="SELECT LAST_INSERT_ID(idPlan_Descuento) AS ProximoIdAInsertar FROM plan_descuento ORDER BY idPlan_Descuento DESC LIMIT 1";
         
@@ -994,6 +996,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
         {
             PreparedStatement pst2= cn.prepareStatement("INSERT INTO cuota (nro_cuota, importe, IVA, fecha, plan_descuento_idPlan_Descuento) VALUES (?,?,?,?,?) ");
             pst2.setString(1, (String.valueOf((i+1))));
+            System.out.println(tblCuotasVisual.getValueAt(i, 0).toString());
             pst2.setString(2, tblCuotasVisual.getValueAt(i, 0).toString());
             pst2.setString(3, tblCuotasVisual.getValueAt(i, 1).toString());
             pst2.setString(4, tblCuotasVisual.getValueAt(i, 2).toString());
@@ -1074,6 +1077,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
             txtArticulo.setEnabled(false);
             jcomArticulo.setEnabled(false);
             jlbArticulo.setEnabled(false);
+            txtArticulo.setText(null);
         }
     }//GEN-LAST:event_jCheckArticuloActionPerformed
 
@@ -1130,7 +1134,9 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
             while (rs.next())///recorre cada valor de la consulta y la guarda en las variables.
             {
                 this.jcomArticulo.addItem(rs.getString("descripcion")); 
-            }               
+                
+            }   
+            
         }
         catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
@@ -1240,13 +1246,14 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
         java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("yyyy-MM-dd");
         String fecha = sdf.format(date);
         
-        String importe= "";
+        String importe= "0";
         importe= txtImporte.getText();
         cantCuota=Integer.parseInt(txtCuotas.getText());
         cuota= (((Double.parseDouble(importe))/cantCuota));
         importe=String.format("%.2f", cuota);
+      //  cuota = Double.parseDouble(importe);
         
-        System.out.println(importe);
+        System.out.println(cuota);
             //  Statement st= cn.createStatement();
             //ResultSet rs= st.executeQuery(sSQL);
             
@@ -1327,7 +1334,13 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     
     txtIdProveedor.requestFocus();///posiciona el cursor
     
+        this.jcomProveedor.removeAllItems();
+    this.jcomComprador.removeAllItems();
+    this.jcomMotivo.removeAllItems();
+    this.jcomSector.removeAllItems();
+   // this.jcomArticulo.removeAllItems();
     
+    this.jcomArticulo.setSelectedItem(null);
     
      //vacia los campos en ""
     txtIdProveedor.setText("");   
@@ -1341,20 +1354,18 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     txtDescDescuento.setText("");
     txtObsProveedor.setText("");
     txtObsComprador.setText("");
+    txtArticulo.setText(null);
   
     eliminarTablaCuotas();
     
-    this.jcomProveedor.removeAllItems();
-    this.jcomComprador.removeAllItems();
-    this.jcomMotivo.removeAllItems();
-    this.jcomSector.removeAllItems();
-    
+
 
     
     jcomClaseProveedorMenu();
     jcomClaseCompradorMenu();
     jcomClaseSectorMenu();
     jcomClaseMotivoMenu();
+    //jcomClaseArticulo();
     
     
     }
@@ -1362,6 +1373,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
    
     void inhabilitar(){
     //deshabilita cada opción
+    
     txtIdProveedor.setEnabled(false);
     jcomProveedor.setEnabled(false);
     jlbProveedor.setEnabled(false);
@@ -1401,6 +1413,12 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     
     eliminarTablaCuotas();
     
+    
+    this.jcomProveedor.removeAllItems();
+    this.jcomComprador.removeAllItems();
+    this.jcomMotivo.removeAllItems();
+    this.jcomSector.removeAllItems();
+    this.jcomArticulo.removeAll();
     //vacia los campos en ""
     txtIdProveedor.setText("");   
     txtImporte.setText("");
@@ -1413,7 +1431,10 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     txtDescDescuento.setText("");
     txtObsProveedor.setText("");
     txtObsComprador.setText("");
-   
+    txtArticulo.setText(null);
+    this.jcomArticulo.setSelectedItem(null);
+    
+  
     jlbCuotas.setEnabled(false);
     }
     
