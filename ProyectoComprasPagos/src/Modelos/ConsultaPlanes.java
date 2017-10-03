@@ -64,6 +64,7 @@ public class ConsultaPlanes extends javax.swing.JFrame {
         jPopupMenu1.getAccessibleContext().setAccessibleParent(jPopupMenu1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Consulta Planes Fijos");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Consulta Planes", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -145,7 +146,7 @@ public class ConsultaPlanes extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel1.getAccessibleContext().setAccessibleName("ConsultaPlanes");
@@ -170,7 +171,7 @@ public class ConsultaPlanes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirConsultaActionPerformed
 
     private void ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImprimirActionPerformed
-        int filasel;
+        /*int filasel;
         int idplanfijo=0;
         String idString="";
         GenerarReportes repFijo= new GenerarReportes(); 
@@ -201,7 +202,7 @@ public class ConsultaPlanes extends javax.swing.JFrame {
         catch (Exception e)
                 {
                     
-                }
+                }*/
     }//GEN-LAST:event_ImprimirActionPerformed
 
     //carga tabla Articulos
