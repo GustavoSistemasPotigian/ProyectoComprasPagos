@@ -6,7 +6,6 @@
 package Reportes;
 
 import BaseDeDatos.ConexionMySQL;
-import Modelos.ConsultaPlanes;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,13 +16,14 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
+import java.net.URL;
 
 /**
  *
  * @author gustavo
  */
 public class GenerarReportes {
-              ConexionMySQL mysql= new ConexionMySQL();
+            ConexionMySQL mysql= new ConexionMySQL();
             Connection cn= mysql.Conectar();
             
     public void reportePlanFijo(int idplanfijo)
@@ -34,11 +34,12 @@ public class GenerarReportes {
             System.out.println("entra5");
            // 
          //  String direc="ReportePlanFijo.jasper"; 
-         //  JasperReport reportes= (JasperReport) JRLoader.loadObject (getClass().getResource("\Reportes\ReportePlanFijo.jasper"));
+           // JasperReport reportes= (JasperReport) JRLoader.loadObject (getClass().getResource("\\Reportes\\ReportePlanFijo.jasper"));
          //  JasperReport jasper= (JasperReport) JRLoader.loadObject(getClass().getResource("ReportePlanFijo.jasper"));
-             JasperReport reportes = JasperCompileManager.compileReport("ReportePlanFijo.jrxml");
-           
-           
+           JasperReport reportes = JasperCompileManager.compileReport("C:\\Users\\usuario\\Documents\\NetBeansProjects\\ProyectoComprasPagos\\ProyectoComprasPagos\\ProyectoComprasPagos\\ReportePlanFijo.jrxml");
+           //JasperReport jr = null;
+           //URL in= this.getClass().getResource("\\Reportes\\ReportePlanFijo.jasper");
+          // jr=(JasperReport) JRLoader.loadObject(in);
            Map parametro= new HashMap();
             parametro.clear();
             parametro.put("idplanfijo", idplanfijo);
