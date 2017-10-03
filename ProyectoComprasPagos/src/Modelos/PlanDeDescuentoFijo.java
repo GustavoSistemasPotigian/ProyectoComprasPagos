@@ -6,15 +6,32 @@
 package Modelos;
 
 import BaseDeDatos.ConexionMySQL;
+import com.lowagie.text.BadElementException;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Image;
+import com.lowagie.text.pdf.PdfWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.UndoableEditListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.Element;
+import javax.swing.text.Position;
+import javax.swing.text.Segment;
 
 
 public class PlanDeDescuentoFijo extends javax.swing.JFrame {
@@ -79,8 +96,10 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
         btnConfirmar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        btnSinArticulos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Plan De Bonificaciones");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("PLAN IMPORTE FIJO- Alta"));
 
@@ -125,7 +144,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
             }
         });
 
-        jlbSector.setText("Sector: ");
+        jlbSector.setText("Rubro: ");
 
         txtSector.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -282,9 +301,9 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
                                                 .addComponent(rbIVA10)
                                                 .addGap(0, 0, Short.MAX_VALUE))))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtSector, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtSector, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
+                                            .addComponent(txtArticulo))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jcomSector, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -413,7 +432,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblCuotasVisual);
 
-        btnConfirmar.setText("Confirmar");
+        btnConfirmar.setText("Confirmar Y Seleccionar Articulos");
         btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConfirmarActionPerformed(evt);
@@ -434,6 +453,13 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
             }
         });
 
+        btnSinArticulos.setText("Confirmar");
+        btnSinArticulos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSinArticulosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -449,7 +475,9 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
                                 .addComponent(jScrollPane1))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(31, 31, 31)
-                        .addComponent(btnConfirmar)
+                        .addComponent(btnSinArticulos, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -465,12 +493,13 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(63, 63, 63))
+                    .addComponent(btnConfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSinArticulos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(68, 68, 68))
         );
 
         jPanel1.getAccessibleContext().setAccessibleName("PLAN IMPORTE FIJO");
@@ -507,7 +536,10 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
                 this.jcomArticulo.removeAllItems();
                 jcomClaseArticulo();
               }          
-             }
+        
+        txtIdProveedor.transferFocus();
+        }
+        
         catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
         } 
@@ -515,6 +547,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
 
     private void txtImporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImporteActionPerformed
         // TODO add your handling code here:
+        txtImporte.transferFocus();
     }//GEN-LAST:event_txtImporteActionPerformed
 
     private void txtSectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSectorActionPerformed
@@ -544,6 +577,8 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
                 this.jcomSector.removeAllItems();
                 this.jcomSector.addItem(rs.getString("descripcion"));                 
               }          
+             
+             
              }
         catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
@@ -639,7 +674,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
                 jcomClaseArticulo();
         
             }           
-           
+           jcomProveedor.transferFocus();
              }
         catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
@@ -804,7 +839,8 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
              {
                 this.jcomComprador.removeAllItems();
                 this.jcomComprador.addItem(rs.getString("comprador"));                 
-              }          
+              } 
+             txtComprador.transferFocus();
              }
         catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
@@ -899,7 +935,264 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
         tipoIVA=getIVA();
         ///verifico que no se envie un articulo no elegido
         if (this.jCheckArticulo.isSelected()==true){
-             idArt=txtArticulo.getText();}
+             idArt=null;}
+        else {
+            idArt=null;
+        }
+        //cantCopias=txtCantCopias.getText ();
+        
+        
+        ///creamos la consulta sql
+        if (accion.equals("Insertar"))
+        {
+            sSQL="INSERT INTO plan_descuento (Proveedor_idproveedor, tipo_plan,fechaActual, importe,"
+                    + " cuotas, Usuario_idusuario,Sector_idsector,Motivo_SNC_idMotivo_SNC, descuento,"
+                    + "descuento_descripcion,obs_Proveedor, obs_Comprador, tipo_IVA_idtipo_IVA, Articulo_idArticulo) "+
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+           mensaje="Operación Satisfactoria";
+        }
+        /*
+        else if (accion.equals("Modificar"))
+        {
+            sSQL="UPDATE articulo " +
+                 "SET idArticulo= ?," +
+                 "descripcion= ?, "+
+                 "unidad_de_venta= ?, " +
+                 "fecha_ingreso_inicial= ?, " +
+                 "precio_costo= ? ," +
+                 "precio_vigente= ? ," +
+                 "margen=?," +   
+                 "proveedor_idproveedor= ? , "+
+                 "cantidad_total= ? " +  
+                 "WHERE idArticulo= " + id_actualizar;
+            mensaje="Operación Satisfactoría";
+        }
+        */
+        
+        try 
+        {
+            PreparedStatement pst= cn.prepareStatement(sSQL);
+            pst.setString(1, idProve );
+            pst.setString(2, tipoDePlan);
+            pst.setString(3, fechaActual);
+            pst.setString(4, importe);
+            pst.setString(5, cuotas);
+            pst.setString(6, idComprador);
+            pst.setString(7, idSector);
+            pst.setString(8, motivoSNC);
+            pst.setString(9, descuento);
+            pst.setString(10,descDescripcion);
+            pst.setString(11,obsProveedor);
+            pst.setString(12,obsComprador);
+            pst.setString(13,tipoIVA);
+            pst.setString(14, idArt);
+            int n = pst.executeUpdate();
+            guardarCuotas(cn);
+            if (n>0)
+            {    
+                mensaje="Operación Satisfactoria";
+                
+                JOptionPane.showMessageDialog(null, mensaje);
+               // CargarTablaCuotas("");
+                habilitar();//habilita los campos para la carga de datos
+                inhabilitar();
+                SeleccionArticulos ventanaArticulos= new SeleccionArticulos();
+                ventanaArticulos.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                ventanaArticulos.setVisible(true);
+           
+            }
+            
+            
+            
+            
+        } 
+        
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }//GEN-LAST:event_btnConfirmarActionPerformed
+
+    private void guardarCuotas(Connection cn)
+    {
+        String ultimoId="";
+        String sSQLid="", sSQL="";
+        
+        
+        
+        ////Guardamos consulta para ultimo id.
+        sSQLid="SELECT LAST_INSERT_ID(idPlan_Descuento) AS ProximoIdAInsertar FROM plan_descuento ORDER BY idPlan_Descuento DESC LIMIT 1";
+        
+        try 
+        {
+        PreparedStatement pst= cn.prepareStatement(sSQLid);
+        ResultSet resultado= pst.executeQuery();
+        while (resultado.next()) { //Es mas correcto poner el next en el while, te hace lo mismo que tenias en tu antiguo codigo pero en menos lineas y mas limpio
+              ultimoId = resultado.getString("ProximoIdAInsertar");
+              }
+        System.out.println(ultimoId);
+        ///obtenemos cantidad de valores en la jtable
+        for (int i=0; i< tblCuotasVisual.getRowCount(); i++)
+        {
+            PreparedStatement pst2= cn.prepareStatement("INSERT INTO cuota (nro_cuota, importe, IVA, fecha, plan_descuento_idPlan_Descuento) VALUES (?,?,?,?,?) ");
+            pst2.setString(1, (String.valueOf((i+1))));
+            System.out.println(tblCuotasVisual.getValueAt(i, 0).toString());
+            pst2.setString(2, tblCuotasVisual.getValueAt(i, 0).toString());
+            pst2.setString(3, tblCuotasVisual.getValueAt(i, 1).toString());
+            pst2.setString(4, tblCuotasVisual.getValueAt(i, 2).toString());
+            pst2.setString(5, ultimoId);
+            pst2.executeUpdate();
+        }
+        
+        
+        }
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        
+        }
+    
+    
+    }
+    private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
+        cargarTablaCuotas();
+        
+    }//GEN-LAST:event_btnCalcularActionPerformed
+
+    private void btnConsultasPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultasPlanActionPerformed
+        ConsultaPlanes ventanaConsulta= new ConsultaPlanes();
+        ventanaConsulta.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        ventanaConsulta.setVisible(true);
+        
+    }//GEN-LAST:event_btnConsultasPlanActionPerformed
+
+    private void jcomArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcomArticuloActionPerformed
+        ConexionMySQL mysql= new ConexionMySQL();
+        Connection cn= mysql.Conectar();
+        
+       ///ingresamos la consulta
+        String sSQL="", articulo="";
+        articulo=(String) jcomArticulo.getSelectedItem();
+        
+        sSQL= "select idarticulo as id from articulo where descripcion LIKE '%"+articulo+"%'";
+        
+        try 
+        {
+            Statement st= cn.createStatement();
+            ResultSet rs= st.executeQuery(sSQL);
+            
+            while (rs.next())///recorre cada valor de la consulta y la guarda en las variables.
+            {
+                txtArticulo.setText(rs.getString("id"));
+            }           
+           
+             }
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }   
+    }//GEN-LAST:event_jcomArticuloActionPerformed
+
+    private void jCheckDescuentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckDescuentoActionPerformed
+       
+        if (jCheckDescuento.isSelected()==true){
+            txtDescuento.setEnabled(true);
+            txtDescDescuento.setEnabled(true);
+            jlbDescuento.setEnabled(true);}
+        else {
+            txtDescuento.setEnabled(false);
+            txtDescDescuento.setEnabled(false);
+            jlbDescuento.setEnabled(false);
+        }
+    }//GEN-LAST:event_jCheckDescuentoActionPerformed
+
+    private void jCheckArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckArticuloActionPerformed
+         if (jCheckArticulo.isSelected()==true){
+            txtArticulo.setEnabled(true);
+            jcomArticulo.setEnabled(true);
+            jlbArticulo.setEnabled(true);
+            btnConfirmar.setEnabled(true);
+            btnSinArticulos.setEnabled(false);
+            this.jcomArticulo.removeAllItems();
+            jcomClaseArticulo();
+         
+         
+         }
+        else {
+            txtArticulo.setEnabled(false);
+            jcomArticulo.setEnabled(false);
+            jlbArticulo.setEnabled(false);
+            txtArticulo.setText(null);
+            btnConfirmar.setEnabled(false);
+            btnSinArticulos.setEnabled(true);
+        }
+    }//GEN-LAST:event_jCheckArticuloActionPerformed
+
+    private void txtArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtArticuloActionPerformed
+        ///realizamos la conexion con la bdd.
+        
+        ConexionMySQL mysql= new ConexionMySQL();
+        Connection cn= mysql.Conectar();
+        
+       ///ingresamos la consulta
+        String sSQL="", idArt="";
+        idArt= txtArticulo.getText();
+        
+        sSQL= "select descripcion from articulo where idarticulo LIKE '%"+idArt+"%'";
+        
+        try 
+        {
+            Statement st= cn.createStatement();
+            ResultSet rs= st.executeQuery(sSQL);
+             if (rs.next() == false)
+            {
+                String mensaje="El Articulo no existe";
+                JOptionPane.showMessageDialog(null, mensaje);
+            
+            }
+             else 
+             {
+                this.jcomArticulo.removeAllItems();
+                this.jcomArticulo.addItem(rs.getString("descripcion"));                 
+              }          
+             }
+        catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        } 
+    }//GEN-LAST:event_txtArticuloActionPerformed
+
+    private void btnSinArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSinArticulosActionPerformed
+        //conexión a la bdd
+        ConexionMySQL mysql= new ConexionMySQL();
+        Connection cn= mysql.Conectar();
+        ///FECHA ACTUAL
+        java.util.Date date = new java.util.Date();
+        java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("yyyy-MM-dd");
+        String fecha = sdf.format(date);
+        
+        ///STRING A UTILIZAR
+        String idProve="", tipoDePlan="",fechaActual="",importe="0", cuotas="0", idComprador="",idSector="";
+        String motivoSNC="",descuento="0", descDescripcion="", obsComprador="", obsProveedor="",tipoIVA="0", idArt="0";
+      // cantCopias="0"
+        String sSQL="";
+        String mensaje;
+       ///campos a cargar
+        idProve=txtIdProveedor.getText();
+        tipoDePlan="FIJO";
+        fechaActual= fecha;
+        importe=txtImporte.getText();
+        cuotas=txtCuotas.getText();
+        idComprador= txtComprador.getText();
+        idSector=txtSector.getText();
+        motivoSNC= txtMotivoSNC.getText();
+        if (txtDescuento.isEnabled()==true){
+               descuento=txtDescuento.getText();
+               descDescripcion=txtDescDescuento.getText();
+                }
+        
+        obsProveedor= txtObsProveedor.getText();
+        obsComprador=txtObsComprador.getText();
+        tipoIVA=getIVA();
+        ///verifico que no se envie un articulo no elegido
+        if (this.jCheckArticulo.isSelected()==true){
+             idArt=null;}
         else {
             idArt=null;
         }
@@ -961,158 +1254,20 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
                 habilitar();//habilita los campos para la carga de datos
                 inhabilitar();
                 ConsultaPlanes ventanaConsulta= new ConsultaPlanes();
+                ventanaConsulta.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 ventanaConsulta.setVisible(true);
-            }
-            
-            
-            
-        } 
-        
-        catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex);
-        }
-    }//GEN-LAST:event_btnConfirmarActionPerformed
-
-    private void guardarCuotas(Connection cn)
-    {
-        String ultimoId="";
-        String sSQLid="", sSQL="";
-        
-        
-        
-        ////Guardamos consulta para ultimo id.
-        sSQLid="SELECT LAST_INSERT_ID(idPlan_Descuento) AS ProximoIdAInsertar FROM plan_descuento ORDER BY idPlan_Descuento DESC LIMIT 1";
-        
-        try 
-        {
-        PreparedStatement pst= cn.prepareStatement(sSQLid);
-        ResultSet resultado= pst.executeQuery();
-        while (resultado.next()) { //Es mas correcto poner el next en el while, te hace lo mismo que tenias en tu antiguo codigo pero en menos lineas y mas limpio
-              ultimoId = resultado.getString("ProximoIdAInsertar");
-              }
-        System.out.println(ultimoId);
-        ///obtenemos cantidad de valores en la jtable
-        for (int i=0; i< tblCuotasVisual.getRowCount(); i++)
-        {
-            PreparedStatement pst2= cn.prepareStatement("INSERT INTO cuota (nro_cuota, importe, IVA, fecha, plan_descuento_idPlan_Descuento) VALUES (?,?,?,?,?) ");
-            pst2.setString(1, (String.valueOf((i+1))));
-            System.out.println(tblCuotasVisual.getValueAt(i, 0).toString());
-            pst2.setString(2, tblCuotasVisual.getValueAt(i, 0).toString());
-            pst2.setString(3, tblCuotasVisual.getValueAt(i, 1).toString());
-            pst2.setString(4, tblCuotasVisual.getValueAt(i, 2).toString());
-            pst2.setString(5, ultimoId);
-            pst2.executeUpdate();
-        }
-        
-        
-        }
-        catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex);
-        
-        }
-    
-    
-    }
-    private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
-        cargarTablaCuotas();
-    }//GEN-LAST:event_btnCalcularActionPerformed
-
-    private void btnConsultasPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultasPlanActionPerformed
-        ConsultaPlanes ventanaConsulta= new ConsultaPlanes();
-        ventanaConsulta.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        ventanaConsulta.setVisible(true);
-        
-    }//GEN-LAST:event_btnConsultasPlanActionPerformed
-
-    private void jcomArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcomArticuloActionPerformed
-         ConexionMySQL mysql= new ConexionMySQL();
-        Connection cn= mysql.Conectar();
-        
-       ///ingresamos la consulta
-        String sSQL="", articulo="";
-        articulo=(String) jcomArticulo.getSelectedItem();
-        
-        sSQL= "select idarticulo as id from articulo where descripcion LIKE '%"+articulo+"%'";
-        
-        try 
-        {
-            Statement st= cn.createStatement();
-            ResultSet rs= st.executeQuery(sSQL);
-            
-            while (rs.next())///recorre cada valor de la consulta y la guarda en las variables.
-            {
-                txtArticulo.setText(rs.getString("id"));
-            }           
            
-             }
-        catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex);
-        }   
-    }//GEN-LAST:event_jcomArticuloActionPerformed
-
-    private void jCheckDescuentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckDescuentoActionPerformed
-       
-        if (jCheckDescuento.isSelected()==true){
-            txtDescuento.setEnabled(true);
-            txtDescDescuento.setEnabled(true);
-            jlbDescuento.setEnabled(true);}
-        else {
-            txtDescuento.setEnabled(false);
-            txtDescDescuento.setEnabled(false);
-            jlbDescuento.setEnabled(false);
-        }
-    }//GEN-LAST:event_jCheckDescuentoActionPerformed
-
-    private void jCheckArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckArticuloActionPerformed
-         if (jCheckArticulo.isSelected()==true){
-            txtArticulo.setEnabled(true);
-            jcomArticulo.setEnabled(true);
-            jlbArticulo.setEnabled(true);
-            this.jcomArticulo.removeAllItems();
-            jcomClaseArticulo();
-         
-         
-         }
-        else {
-            txtArticulo.setEnabled(false);
-            jcomArticulo.setEnabled(false);
-            jlbArticulo.setEnabled(false);
-            txtArticulo.setText(null);
-        }
-    }//GEN-LAST:event_jCheckArticuloActionPerformed
-
-    private void txtArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtArticuloActionPerformed
-        ///realizamos la conexion con la bdd.
-        
-        ConexionMySQL mysql= new ConexionMySQL();
-        Connection cn= mysql.Conectar();
-        
-       ///ingresamos la consulta
-        String sSQL="", idArt="";
-        idArt= txtArticulo.getText();
-        
-        sSQL= "select descripcion from articulo where idarticulo LIKE '%"+idArt+"%'";
-        
-        try 
-        {
-            Statement st= cn.createStatement();
-            ResultSet rs= st.executeQuery(sSQL);
-             if (rs.next() == false)
-            {
-                String mensaje="El Articulo no existe";
-                JOptionPane.showMessageDialog(null, mensaje);
-            
             }
-             else 
-             {
-                this.jcomArticulo.removeAllItems();
-                this.jcomArticulo.addItem(rs.getString("descripcion"));                 
-              }          
-             }
+            
+            
+            
+            
+        } 
+        
         catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
-        } 
-    }//GEN-LAST:event_txtArticuloActionPerformed
+        }
+    }//GEN-LAST:event_btnSinArticulosActionPerformed
     private void jcomClaseArticulo(){
         
          ///realizamos la conexion con la bdd.
@@ -1280,8 +1435,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     
     
     }
-    
-    
+       
     /////////////////////////////////////////////////////////////////////////////
     //////////////CLASES PARA HABILITAR E INHABILITAR LOS MENUS//////////////////
     /////////////////////////////////////////////////////////////////////////////
@@ -1289,6 +1443,8 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     void habilitar()
     {
    //habilita cada opción
+        
+    /// CAMPOS DE TEXTO Y ETIQUETAS    
     txtIdProveedor.setEnabled(true);
     jcomProveedor.setEnabled(true);
     jlbProveedor.setEnabled(true);
@@ -1320,9 +1476,12 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     txtObsComprador.setEnabled(true);
     jlbObsComprador.setEnabled(true);
     
-    btnConfirmar.setEnabled(true);
+    ///BOTONES Y ACCIONES
+    btnSinArticulos.setEnabled(true);
+   // btnConfirmar.setEnabled(true);
     btnCancelar.setEnabled(true);
     btnCalcular.setEnabled(true);
+  //  btnSeleccionArticulos.setEnabled(true);
     jlbCuotas.setEnabled(true);
     jCheckDescuento.setEnabled(true);  
     jCheckArticulo.setEnabled(true);
@@ -1334,7 +1493,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     
     txtIdProveedor.requestFocus();///posiciona el cursor
     
-        this.jcomProveedor.removeAllItems();
+    this.jcomProveedor.removeAllItems();
     this.jcomComprador.removeAllItems();
     this.jcomMotivo.removeAllItems();
     this.jcomSector.removeAllItems();
@@ -1374,6 +1533,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     void inhabilitar(){
     //deshabilita cada opción
     
+    ///CAMPOS DE TEXTOS Y ETIQUETAS
     txtIdProveedor.setEnabled(false);
     jcomProveedor.setEnabled(false);
     jlbProveedor.setEnabled(false);
@@ -1400,10 +1560,13 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     txtObsComprador.setEnabled(false);
     jlbObsComprador.setEnabled(false);
 
+    ///BOTONES
+    btnSinArticulos.setEnabled(false);
     btnConfirmar.setEnabled(false);
     btnCancelar.setEnabled(false);
     btnCalcular.setEnabled(false);
-     jCheckDescuento.setSelected(false);
+    
+    jCheckDescuento.setSelected(false);
     jCheckArticulo.setSelected(false);
     jCheckDescuento.setEnabled(false);
     jCheckArticulo.setEnabled(false);
@@ -1490,6 +1653,7 @@ public class PlanDeDescuentoFijo extends javax.swing.JFrame {
     private javax.swing.JButton btnConsultasPlan;
     private javax.swing.JButton btnNuevoPlan;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JButton btnSinArticulos;
     private javax.swing.JCheckBox jCheckArticulo;
     private javax.swing.JCheckBox jCheckDescuento;
     private javax.swing.JPanel jPanel1;
